@@ -1,0 +1,7 @@
+resize_algorithm = bilinear
+hotspot_x = 0.500
+hotspot_y = 0.086
+
+define_size = 0, sb_up_arrow-00.svg
+
+define_override = up-arrow

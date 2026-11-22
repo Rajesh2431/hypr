@@ -1,0 +1,60 @@
+{
+  "tiles": [
+    "wifi",
+    "bluetooth",
+    "focus",
+    "nightlight",
+    "stayawake",
+    "mute",
+    "mic",
+    "profile",
+    "warp",
+    "screenshot",
+    "tailscale",
+    "settings"
+  ],
+  "focus": [
+    {
+      "id": "dnd",
+      "name": "Do Not Disturb",
+      "icon": 984468,
+      "silence": true,
+      "allow": []
+    },
+    {
+      "id": "work",
+      "name": "Work",
+      "icon": 983254,
+      "silence": true,
+      "allow": [
+        "Slack",
+        "Thunderbird",
+        "Mail",
+        "Teams",
+        "Calendar"
+      ],
+      "profile": "balanced"
+    },
+    {
+      "id": "sleep",
+      "name": "Sleep",
+      "icon": 983779,
+      "silence": true,
+      "allow": [],
+      "profile": "power-saver",
+      "nightlight": true
+    },
+    {
+      "id": "gaming",
+      "name": "Gaming",
+      "icon": 983703,
+      "silence": true,
+      "allow": [
+        "Steam",
+        "Discord"
+      ],
+      "profile": "performance",
+      "stayAwake": true
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+/* ---- Island: Spotlight-style rofi theme ----
+ * Matches the Dynamic Island / Spotlight (Super+D): one black rounded card,
+ * big search field, single clean list, white selection pill, hairline edges.
+ * Every rofi menu uses this (config.rasi @theme + config-*.rasi overrides).
+ * Previous KoolDots setup: ~/.config/hypr/rofi-backup-before-island.tar.gz
+ */
+configuration {
+    show-icons:           true;
+    display-drun:         "Apps";
+    display-run:          "Run";
+    display-filebrowser:  "Files";
+    display-window:       "Windows";
+    drun-display-format:  "{name}";
+    window-format:        "{w} · {c} · {t}";
+    hover-select:         true;
+    me-select-entry:      "MouseSecondary";
+    me-accept-entry:      "MousePrimary";
+}
+
+* {
+    font:              "JetBrainsMono Nerd Font 12";
+    bg:                #000000;
+    card:              #121214;
+    fg:                #f2f2f2;
+    sub:               #8a8a8e;
+    faint:             #5a5a5e;
+    sel:               #f2f2f2;
+    selfg:             #000000;
+    edge:              rgba(255, 255, 255, 9%);
+    green:             #30d158;
+    red:               #ff453a;
+    background-color:  transparent;
+    text-color:        @fg;
+    border-color:      @edge;
+}
+
+window {
+    transparency:      "real";
+    location:          north;
+    anchor:            north;
+    y-offset:          16%;
+    width:             680px;
+    border:            1px solid;
+    border-color:      @edge;
+    border-radius:     26px;
+    background-color:  @bg;
+    padding:           0px;
+    cursor:            "default";
+}
+mainbox {
+    padding:           0px;
+    spacing:           0px;
+    background-color:  transparent;
+    children:          [ "inputbar", "message", "listview", "mode-switcher" ];
+}
+
+/* ---- search field ---- */
+inputbar {
+    padding:           0px 22px;
+    spacing:           14px;
+    border:            0px 0px 1px 0px;
+    border-color:      @edge;
+    background-color:  transparent;
+    children:          [ "textbox-search", "entry" ];
+}
+textbox-search {
+    expand:            false;
+    str:               "󰍉";
+    font:              "JetBrainsMono Nerd Font 20";
+    text-color:        @sub;
+    vertical-align:    0.5;
+    background-color:  transparent;
+}
+entry {
+    padding:           20px 0px;
+    font:              "JetBrainsMono Nerd Font 16";
+    text-color:        @fg;
+    placeholder-color: @faint;
+    placeholder:       "Search";
+    cursor:            text;
+    vertical-align:    0.5;
+    background-color:  transparent;
+}
+prompt, textbox-prompt-colon, case-indicator, num-filtered-rows, num-rows, textbox-num-sep { enabled: false; }
+
+/* ---- message (e.g. "-mesg" text) ---- */
+message {
+    padding:           10px 12px 0px 12px;
+    background-color:  transparent;
+}
+textbox {
+    padding:           10px 14px;
+    border-radius:     14px;
+    background-color:  @card;
+    text-color:        @sub;
+    vertical-align:    0.5;
+    markup:            true;
+}
+
+/* ---- results ---- */
+listview {
+    padding:           10px;
+    spacing:           2px;
+    lines:             8;
+    columns:           1;
+    fixed-height:      false;
+    fixed-columns:     true;
+    dynamic:           true;
+    cycle:             true;
+    scrollbar:         false;
+    background-color:  transparent;
+    cursor:            "default";
+}
+element {
+    padding:           9px 12px;
+    spacing:           12px;
+    border-radius:     14px;
+    orientation:       horizontal;
+    children:          [ "element-icon", "element-text" ];
+    cursor:            pointer;
+}
+element normal.normal, element alternate.normal { background-color: transparent; text-color: @fg; }
+element normal.active, element alternate.active { background-color: transparent; text-color: @green; }
+element normal.urgent, element alternate.urgent { background-color: transparent; text-color: @red; }
+element selected.normal, element selected.active, element selected.urgent { background-color: @sel; text-color: @selfg; }
+element-icon {
+    size:              30px;
+    vertical-align:    0.5;
+    background-color:  transparent;
+    text-color:        inherit;
+    cursor:            inherit;
+}
+element-text {
+    vertical-align:    0.5;
+    horizontal-align:  0.0;
+    background-color:  transparent;
+    text-color:        inherit;
+    highlight:         bold;
+    cursor:            inherit;
+}
+
+/* ---- modes (apps / run / files…) as small chips under the list ---- */
+mode-switcher {
+    padding:           0px 12px 12px 12px;
+    spacing:           6px;
+    background-color:  transparent;
+}
+button {
+    padding:           6px 14px;
+    border-radius:     14px;
+    background-color:  @card;
+    text-color:        @sub;
+    cursor:            pointer;
+}
+button selected { background-color: @sel; text-color: @selfg; }
+
+error-message {
+    padding:           16px 20px;
+    border:            1px solid;
+    border-color:      @red;
+    border-radius:     20px;
+    background-color:  @bg;
+    text-color:        @fg;
+}

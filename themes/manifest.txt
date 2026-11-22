@@ -1,0 +1,44 @@
+# Per-style files (paths relative to $HOME). Used by UserScripts/Styles.sh.
+# Only the LOOK switches; widget code, scripts and assets stay shared by every style, so features
+# and fixes apply to all styles. A path missing when a style is saved is removed when that style
+# is applied; a path added here later is left alone by styles saved before it existed.
+# Previous (whole-folder) manifest: themes/_backups/2026-11-22-pre-obsidian.tar.gz
+
+# waybar: which layout + stylesheet (symlinks; the layouts/CSS files themselves are shared)
+.config/hypr/waybar/config
+.config/hypr/waybar/style.css
+# lock screen (images in hyprlock-punk-art.conf; the name is shared by every style)
+.config/hypr/hyprlock.conf
+.config/hypr/hyprlock-punk-art.conf
+# rofi: selected theme
+.config/hypr/rofi/config.rasi
+# Hyprland: borders, shadows, blur, gaps, animations, blur layer rules, cursor env
+.config/hypr/UserScripts/rainbow-borders.mode
+.config/hypr/UserConfigs/user_decorations.lua
+.config/hypr/UserConfigs/user_animations.lua
+.config/hypr/UserConfigs/user_layer_rules.lua
+.config/hypr/UserConfigs/user_env.lua
+# island / Control Center / notifications / launcher / power menu: tokens, panel shape, look switches
+.config/quickshell/island/Punk.qml
+.config/quickshell/island/PunkPanel.qml
+.config/quickshell/island/Look.qml
+# overview
+.config/quickshell/overview/common/Appearance.qml
+.config/quickshell/overview/modules/overview/OverviewWidget.qml
+# GTK + cursor
+.config/gtk-3.0/settings.ini
+.config/gtk-4.0/settings.ini
+.config/gtk-4.0/gtk.css
+.icons/default/index.theme
+# Qt
+.config/qt5ct/qt5ct.conf
+.config/qt6ct/qt6ct.conf
+.config/Kvantum/kvantum.kvconfig
+# sounds: KoolDots Sounds.sh (volume / screenshot / error), island timer chime (notifications: ~/.local/bin/spiderpunk-sounds follows the sound theme) -> the style's sound theme
+.config/hypr/sounds/volume.ogg
+.config/hypr/sounds/screenshot.ogg
+.config/hypr/sounds/error.ogg
+.config/hypr/sounds/complete.oga
+# terminal + editor colours
+.config/kitty/kitty.conf
+.config/nvim/lua/plugins/desktop-style.lua

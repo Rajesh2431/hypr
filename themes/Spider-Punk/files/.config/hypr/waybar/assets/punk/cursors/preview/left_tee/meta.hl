@@ -1,0 +1,6 @@
+resize_algorithm = bilinear
+hotspot_x = 0.102
+hotspot_y = 0.500
+
+define_size = 0, left_tee-00.svg
+

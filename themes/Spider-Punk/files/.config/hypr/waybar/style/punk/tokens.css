@@ -1,0 +1,23 @@
+/* ---- Spider-Punk design tokens (shared) ----
+ * The same values live in ~/.config/quickshell/island/Punk.qml (island, Control Center,
+ * notifications). Change both together. Derived from the wallpaper (26505000.jpg):
+ * ink #1F0C14 dominant, crimson #B73E42, top-strip blue #1E4299, magenta #AE3F9C,
+ * gold #BDA94F, torn-paper cream #C6B5B9 — pushed to print-ink saturation. */
+@define-color bg          #0B090D;   /* primary background   */
+@define-color bg2         #151117;   /* secondary background */
+@define-color surface     #1E151C;   /* raised surface       */
+@define-color ink         #050306;   /* outlines             */
+@define-color text        #F5F0E8;   /* primary text (paper) */
+@define-color subtext     #AAA2B2;   /* secondary text       */
+@define-color faint       rgba(170, 162, 178, 0.45);
+@define-color crimson     #FF1744;   /* accent 1             */
+@define-color blue        #00B8FF;   /* accent 2             */
+@define-color purple      #8B35FF;
+@define-color magenta     #FF2E93;
+@define-color yellow      #FFD43B;   /* highlight            */
+@define-color orange      #FF6B24;
+@define-color muted       rgba(255, 23, 68, 0.16);   /* muted accent */
+@define-color border      #050306;
+@define-color hover       rgba(0, 184, 255, 0.16);
+@define-color active      #FF1744;
+@define-color shadow      rgba(0, 0, 0, 0.55);

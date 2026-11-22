@@ -1,0 +1,82 @@
+/* ---- Obsidian Glass: module definitions (layout configs/TOP-Obsidian-Glass, style style/Obsidian-Glass.css) ----
+ * Included FIRST, then ModulesClean: every widget/script is the shared one, run in its normal
+ * Nerd Font glyph mode (no PUNK_ICONS), so features stay identical to Spider-Punk. */
+{
+"group/gleft":  { "orientation": "inherit", "modules": [ "cffi/apps", "cffi/workspaces", "hyprland/submap", "hyprland/window#glass" ] },
+"group/gclock": { "orientation": "inherit", "modules": [ "clock#glass", "custom/weather2", "cffi/photos" ] },
+"group/ghud":   { "orientation": "inherit", "modules": [ "cpu#glass", "memory#glass", "custom/gpu", "cffi/system" ] },
+"group/gright": { "orientation": "inherit",
+                  "modules": [ "custom/privacy", "tray", "cffi/wifi", "cffi/tailscale", "cffi/bluetooth", "cffi/sound", "backlight#glass",
+                               "battery#glass", "cffi/ai", "group/notifydrawer", "custom/power" ] },
+"group/gright2": { "orientation": "inherit", "modules": [ "cffi/sound", "battery#glass", "custom/notify", "custom/power" ] },
+
+"hyprland/window#glass": {
+  "format": "{}",
+  "max-length": 28,
+  "separate-outputs": true,
+  "rewrite": { "(.*) — Mozilla Firefox": "$1", "(.*) - Chromium": "$1", "": "" }
+},
+"clock#glass": {
+  "interval": 5,
+  "format": "{:%a %d %b  %I:%M %p}",
+  "format-alt": "{:%H:%M}",
+  "tooltip-format": "<tt><small>{calendar}</small></tt>",
+  "calendar": {
+    "mode": "month", "mode-mon-col": 3, "weeks-pos": "right", "on-scroll": 1,
+    "format": {
+      "months":   "<span color='#E6E8F0'><b>{}</b></span>",
+      "days":     "<span color='#9CA4B5'>{}</span>",
+      "weeks":    "<span color='#687184'>W{:%V}</span>",
+      "weekdays": "<span color='#7ED6DE'>{}</span>",
+      "today":    "<span background='#78B9E7' color='#101116'><b> {} </b></span>"
+    }
+  },
+  "actions": { "on-scroll-up": "shift_up", "on-scroll-down": "shift_down" },
+  "on-click-right": "qs ipc -c island call timer toggle",
+  "on-click-middle": "$HOME/.config/hypr/waybar/scripts/timer-pick.sh"
+},
+"cpu#glass": {
+  "interval": 3,
+  "format": "󰍛 {usage}%",
+  "states": { "warning": 70, "critical": 90 },
+  "on-click-right": "$HOME/.config/hypr/scripts/WaybarScripts.sh --btop"
+},
+"memory#glass": {
+  "interval": 5,
+  "format": "󰾆 {percentage}%",
+  "states": { "warning": 75, "critical": 90 },
+  "tooltip-format": "RAM {used:0.1f} / {total:0.1f} GiB\nSwap {swapUsed:0.1f} / {swapTotal:0.1f} GiB",
+  "on-click-right": "$HOME/.config/hypr/scripts/WaybarScripts.sh --btop"
+},
+"custom/gpu": {
+  // NVIDIA dGPU load; "zz" while the card sleeps (never wakes it) — scripts/gpu.py, glyph mode in the glass blue
+  "exec": "env GPU_ICON_COLOR=#78B9E7 python3 $HOME/.config/hypr/waybar/scripts/gpu.py",
+  "return-type": "json",
+  "format": "{}",
+  "on-click-right": "kitty -e nvtop"
+},
+"cffi/tailscale": {
+  "module_path": "/home/dog/.config/hypr/waybar/cffi/menu-widget.so",
+  "name": "tailscale",
+  "exec": "python3 \"$HOME/.config/hypr/waybar/scripts/tailscale.py\" status",
+  "on-click-right": "python3 \"$HOME/.config/hypr/waybar/scripts/tailscale.py\" toggle"
+},
+"backlight#glass": {
+  "format": "{icon}",
+  "format-icons": [ "󰃞", "󰃟", "󰃠" ],
+  "tooltip-format": "Brightness {percent}%  ·  scroll to change",
+  "on-scroll-up": "$HOME/.config/hypr/scripts/Brightness.sh --inc",
+  "on-scroll-down": "$HOME/.config/hypr/scripts/Brightness.sh --dec",
+  "smooth-scrolling-threshold": 1
+},
+"battery#glass": {
+  "full-at": 100,
+  "states": { "warning": 30, "critical": 15 },
+  "format": "{icon} {capacity}%",
+  "format-charging": "󰂄 {capacity}%",
+  "format-plugged": "󰚥 {capacity}%",
+  "format-icons": [ "󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹" ],
+  "tooltip-format": "Battery {capacity}%\n{timeTo}  ·  {power:.1f} W\nHealth {health}% of original capacity",
+  "on-click": "qs ipc -c island call center toggle"
+}
+}

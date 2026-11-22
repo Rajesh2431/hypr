@@ -1,0 +1,17 @@
+resize_algorithm = bilinear
+hotspot_x = 0.156
+hotspot_y = 0.102
+
+define_size = 0, left_ptr_watch-00.svg, 70
+define_size = 0, left_ptr_watch-01.svg, 70
+define_size = 0, left_ptr_watch-02.svg, 70
+define_size = 0, left_ptr_watch-03.svg, 70
+define_size = 0, left_ptr_watch-04.svg, 70
+define_size = 0, left_ptr_watch-05.svg, 70
+define_size = 0, left_ptr_watch-06.svg, 70
+define_size = 0, left_ptr_watch-07.svg, 70
+
+define_override = 00000000000000020006000e7e9ffc3f
+define_override = 08e8e1c95fe2fc01f976f1e063a24ccd
+define_override = 3ecb610c1bf2410f44200f48c40d3599
+define_override = progress

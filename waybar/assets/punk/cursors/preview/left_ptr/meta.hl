@@ -1,0 +1,9 @@
+resize_algorithm = bilinear
+hotspot_x = 0.156
+hotspot_y = 0.102
+
+define_size = 0, left_ptr-00.svg
+
+define_override = arrow
+define_override = default
+define_override = top_left_arrow

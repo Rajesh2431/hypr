@@ -1,0 +1,6 @@
+resize_algorithm = bilinear
+hotspot_x = 0.406
+hotspot_y = 0.406
+
+define_size = 0, zoom-out-00.svg
+

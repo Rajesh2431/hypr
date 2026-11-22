@@ -1,0 +1,14 @@
+/* config-wallpaper.rasi — Island / Spotlight style (generated). Original KoolDots version:
+ * ~/.config/hypr/rofi-backup-before-island.tar.gz */
+configuration {
+    modi: "drun";
+}
+
+@import "~/.config/hypr/rofi/config.rasi"
+
+window { width: 1060px; }
+listview { columns: 4; lines: 3; spacing: 10px; flow: horizontal; }
+element { orientation: vertical; padding: 8px; spacing: 6px; border-radius: 0px; children: [ "element-icon", "element-text" ]; }
+element-icon { size: 220px; }
+element-text { horizontal-align: 0.5; }
+entry { placeholder: "Choose wallpaper"; }

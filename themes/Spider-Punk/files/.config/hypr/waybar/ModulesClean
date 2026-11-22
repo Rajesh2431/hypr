@@ -1,0 +1,202 @@
+/* ---- Clean Islands: shared module definitions ----
+ * Used by both bars in configs/TOP-Clean-Islands (main + secondary monitors).
+ * Listed FIRST in "include", so these override the KoolDots module files. */
+{
+// ---------------- islands ----------------
+"group/left": {
+  "orientation": "inherit",
+  "modules": [ "cffi/apps", "cffi/workspaces", "hyprland/submap" ]
+},
+"group/time": {
+  "orientation": "inherit",
+  "modules": [ "clock#clean", "custom/weather2", "cffi/photos" ]
+},
+"group/media": {
+  "orientation": "inherit",
+  "modules": [ "custom/cava_mviz", "cffi/spotify" ]
+},
+"group/right": {
+  "orientation": "inherit",
+  "modules": [ "custom/privacy", "tray", "cffi/wifi", "cffi/bluetooth", "cffi/system", "cffi/sound", "backlight#clean", "battery",
+               "custom/nightlight#clean", "idle_inhibitor#clean", "cffi/ai", "group/notifydrawer", "custom/power" ]
+},
+
+// Arch menu drawer (hover the Arch logo): window layout moved in here from the bar
+"group/app_drawer": {
+  "modules": [ "custom/menu", "custom/hypr_layout", "custom/light_dark", "custom/file_manager", "custom/tty", "custom/browser", "custom/settings" ]
+},
+
+// weather: KoolDots' waybar-weather (has file caps, so pdeathsig is cleared) leaked one copy per restart; guard.py stops it with waybar
+"custom/weather2": { "exec": "python3 $HOME/.config/hypr/waybar/scripts/guard.py waybar-weather" },
+
+// visualizer through a wrapper that cleans up on reload (KoolDots' script leaked one cava per reload)
+"custom/cava_mviz": { "exec": "python3 $HOME/.config/hypr/waybar/scripts/cava-wrap.py" },
+
+// apps menu button: Arch logo instead of the Hyprland logo (other settings come from ModulesCustom)
+"custom/menu": { "format": "" },
+
+// ---------------- tidier versions of busy modules ----------------
+"hyprland/window#clean": {
+  "format": "{}",
+  "max-length": 28,
+  "separate-outputs": true,
+  "icon": true,
+  "icon-size": 16,
+  "rewrite": {
+    "(.*) — Mozilla Firefox": "$1",
+    "(.*) - fish": "> $1",
+    "(.*) - zsh": "> $1",
+    "": "Desktop"
+  }
+},
+"clock#clean": {
+  "interval": 1,
+  "format": "{:%a %d  %I:%M %p}",
+  "format-alt": "{:%A, %d %B %Y  ·  %I:%M:%S %p}",
+  "tooltip-format": "<tt><small>{calendar}</small></tt>",
+  "calendar": {
+    "mode": "month",
+    "mode-mon-col": 3,
+    "weeks-pos": "right",
+    "on-scroll": 1,
+    "format": {
+      "months": "<span color='#ffead3'><b>{}</b></span>",
+      "days": "<span color='#ecc6d9'><b>{}</b></span>",
+      "weeks": "<span color='#99ffdd'><b>W{:%V}</b></span>",
+      "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+      "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+    }
+  },
+  "actions": { "on-click-right": "mode", "on-scroll-up": "shift_up", "on-scroll-down": "shift_down" }
+},
+"backlight#clean": {
+  "format": "{icon} {percent}%",
+  "format-icons": [ "󰃞", "󰃟", "󰃠" ],
+  "tooltip-format": "Brightness {percent}%  ·  scroll to change",
+  "on-scroll-up": "$HOME/.config/hypr/scripts/Brightness.sh --inc",
+  "on-scroll-down": "$HOME/.config/hypr/scripts/Brightness.sh --dec",
+  "smooth-scrolling-threshold": 1
+},
+"custom/nightlight#clean": {
+  // same Hyprsunset.sh as KoolDots, but bar-sized icons: sun = off, moon = on
+  "exec": "$HOME/.config/hypr/scripts/Hyprsunset.sh status | jq -c '{text: .class, alt: .class, class: .class, tooltip: (.tooltip + \"\\nClick to toggle\")}'",
+  "return-type": "json",
+  "interval": 3,
+  "signal": 11,
+  "format": "{icon}",
+  "format-icons": { "off": "󰖨", "on": "󰖔" },
+  "on-click": "$HOME/.config/hypr/scripts/Hyprsunset.sh toggle; pkill -RTMIN+11 waybar"
+},
+"idle_inhibitor#clean": {
+  // stay-awake: empty cup = screen may sleep, full cup = kept awake
+  "format": "{icon}",
+  "format-icons": { "deactivated": "󰛊", "activated": "󰅶" },
+  "tooltip-format-activated": "Stay awake: ON\nScreen won't dim, lock or sleep\nClick to turn off",
+  "tooltip-format-deactivated": "Stay awake: off\nClick to keep the screen awake"
+},
+"cffi/apps": {
+  // Arch logo: click = drop-down (apps, files, terminal, browser, window layout, wallpaper, themes, settings)
+  "module_path": "/home/dog/.config/hypr/waybar/cffi/menu-widget.so",
+  "name": "apps",
+  "exec": "python3 \"$HOME/.config/hypr/waybar/scripts/apps.py\" status",
+  "on-click-middle": "qs ipc -c island call wallpaper toggle",
+  "on-click-right": "$HOME/.config/hypr/scripts/WaybarLayout.sh"
+},
+"cffi/workspaces": {
+  // always 5 buttons: used workspaces + lowest empty ones (e.g. 1 2 3 7 8); scripts/workspaces.py
+  "module_path": "/home/dog/.config/hypr/waybar/cffi/workspaces-widget.so",
+  "exec": "python3 \"$HOME/.config/hypr/waybar/scripts/workspaces.py\""
+},
+// bell + updates: the updates icon hides behind the bell and slides out (to the left) on hover
+"group/notifydrawer": {
+  "orientation": "inherit",
+  "drawer": { "transition-duration": 280, "children-class": "drawer-child", "transition-left-to-right": false },
+  "modules": [ "custom/notify", "custom/updates" ]
+},
+"custom/notify": {
+  // bell: unread count / active Focus icon; click = island Control Center (replaces swaync)
+  "exec": "python3 $HOME/.config/hypr/waybar/scripts/notifbell.py",
+  "return-type": "json",
+  "format": "{}",
+  "escape": false,
+  "on-click": "qs ipc -c island call center toggle",
+  "on-click-right": "qs ipc -c island call center dnd"
+},
+"custom/updates": {
+  // pending Arch updates (repo + AUR); hidden when none; click = update in a terminal
+  "exec": "$HOME/.config/hypr/waybar/scripts/updates.sh",
+  "on-click": "$HOME/.config/hypr/waybar/scripts/updates.sh run",
+  "return-type": "json",
+  "interval": 1800,
+  "signal": 12,
+  "escape": false
+},
+"custom/privacy": {
+  // orange mic / screen icon while recording or screen sharing (hidden otherwise).
+  // Own script: waybar's built-in "privacy" module crashes waybar on the 2nd reload.
+  "exec": "python3 $HOME/.config/hypr/waybar/scripts/privacy.py",
+  "return-type": "json",
+  "format": "{}"
+},
+"cffi/ai": {
+  // AI usage: Claude / Codex limits, OpenCode tokens, Antigravity activity (scripts/ai.py)
+  "module_path": "/home/dog/.config/hypr/waybar/cffi/menu-widget.so",
+  "name": "ai",
+  "exec": "python3 \"$HOME/.config/hypr/waybar/scripts/ai.py\" status",
+  "on-click-right": "xdg-open https://claude.ai/settings/usage"
+},
+"cffi/wifi": {
+  // signal icon on the bar (speeds in tooltip/menu); click = Wi-Fi drop-down (scripts/wifi.py)
+  "module_path": "/home/dog/.config/hypr/waybar/cffi/menu-widget.so",
+  "name": "wifi",
+  "exec": "python3 \"$HOME/.config/hypr/waybar/scripts/wifi.py\" status",
+  "on-click-right": "nm-connection-editor"
+},
+"cffi/sound": {
+  // volume on the bar; click = drop-down: output/port, mute, volume, microphone, per-app volume
+  "module_path": "/home/dog/.config/hypr/waybar/cffi/menu-widget.so",
+  "name": "sound",
+  "exec": "python3 \"$HOME/.config/hypr/waybar/scripts/sound.py\" status",
+  "on-scroll-up": "$HOME/.config/hypr/scripts/Volume.sh --inc",
+  "on-scroll-down": "$HOME/.config/hypr/scripts/Volume.sh --dec",
+  "on-click-middle": "$HOME/.config/hypr/scripts/Volume.sh --toggle-mic",
+  "on-click-right": "pavucontrol",
+  "smooth-scrolling-threshold": 1
+},
+"cffi/system": {
+  // CPU temp on the bar; click = drop-down with CPU, memory, disk, power profile, btop/nvtop
+  "module_path": "/home/dog/.config/hypr/waybar/cffi/menu-widget.so",
+  "name": "system",
+  "exec": "python3 \"$HOME/.config/hypr/waybar/scripts/system.py\" status",
+  "on-click-right": "$HOME/.config/hypr/scripts/WaybarScripts.sh --btop"
+},
+"cffi/bluetooth": {
+  // Wi-Fi-style Bluetooth: left click drops down a native GTK menu (cffi/menu-widget.c)
+  // fed by scripts/bluetooth.py; it scans for nearby devices while the menu is open
+  "module_path": "/home/dog/.config/hypr/waybar/cffi/menu-widget.so",
+  "name": "bluetooth",
+  "exec": "python3 \"$HOME/.config/hypr/waybar/scripts/bluetooth.py\" status --cffi",
+  "on-click-right": "python3 \"$HOME/.config/hypr/waybar/scripts/bluetooth.py\" power",
+  "on-click-middle": "blueman-manager"
+},
+"network#clean": {
+  "interval": 2,
+  "format-wifi": "{icon}  {bandwidthDownBytes}",
+  "format-ethernet": "󰈀  {bandwidthDownBytes}",
+  "format-linked": "󰈁  No IP",
+  "format-disconnected": "󰤮  Offline",
+  "format-icons": [ "󰤯", "󰤟", "󰤢", "󰤥", "󰤨" ],
+  "min-length": 12,
+  "max-length": 12,
+  "tooltip-format-wifi": "<b>{essid}</b>  ·  {signalStrength}%\n{ipaddr}\n\n↓ {bandwidthDownBytes}     ↑ {bandwidthUpBytes}",
+  "tooltip-format-ethernet": "<b>{ifname}</b>\n{ipaddr}\n\n↓ {bandwidthDownBytes}     ↑ {bandwidthUpBytes}",
+  "tooltip-format-disconnected": "Not connected",
+  "on-click-right": "nm-connection-editor"
+},
+
+// ---------------- lighter right island for secondary monitors ----------------
+"group/right2": {
+  "orientation": "inherit",
+  "modules": [ "cffi/sound", "battery", "custom/notify", "custom/power" ]
+}
+}

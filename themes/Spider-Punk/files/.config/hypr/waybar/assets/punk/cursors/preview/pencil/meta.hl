@@ -1,0 +1,7 @@
+resize_algorithm = bilinear
+hotspot_x = 0.164
+hotspot_y = 0.836
+
+define_size = 0, pencil-00.svg
+
+define_override = draft

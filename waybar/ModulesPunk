@@ -1,0 +1,160 @@
+/* ---- Spider-Punk: module definitions (layout configs/TOP-Spider-Punk, style style/Spider-Punk.css) ----
+ * Included FIRST, then ModulesClean (Wi-Fi, sound, system, AI, bell, ... widgets are reused as-is). */
+{
+// ---------------- panels ----------------
+"group/pleft":  { "orientation": "inherit", "modules": [ "cffi/apps", "cffi/workspaces", "hyprland/submap", "hyprland/window#punk" ] },
+"group/pclock": { "orientation": "inherit", "modules": [ "clock#punk", "clock#pdate", "custom/weather2", "cffi/photos" ] },
+"group/phud":   { "orientation": "inherit", "modules": [ "cpu#punk", "memory#punk", "custom/gpu", "cffi/system" ] },
+"group/pright": { "orientation": "inherit",
+                  "modules": [ "custom/privacy", "tray", "cffi/wifi", "cffi/tailscale", "cffi/bluetooth", "cffi/sound", "backlight#punk",
+                               "battery#punk", "idle_inhibitor#punk", "cffi/ai", "group/notifydrawer", "custom/power" ] },
+"group/pright2": { "orientation": "inherit", "modules": [ "cffi/sound", "battery#punk", "cffi/radar", "custom/power" ] },
+// the radar replaces the bell; the updates counter still hides behind it and slides out on hover
+"group/notifydrawer": {
+  "orientation": "inherit",
+  "drawer": { "transition-duration": 280, "children-class": "drawer-child", "transition-left-to-right": false },
+  "modules": [ "cffi/radar", "custom/updates" ]
+},
+
+// ---------------- left ----------------
+"cffi/radar": {
+  // Spider-Sense radar (cffi/radar-widget.c + scripts/radar.py), in the bell's place:
+  // yellow badge = unread notifications, purple dashed ring = Focus / Do Not Disturb on.
+  // Blips for CPU, memory, heat, battery, unread notifications and the microphone;
+  // closer to the centre = more urgent; red + fast when in danger
+  "module_path": "/home/dog/.config/hypr/waybar/cffi/radar-widget.so",
+  "exec": "python3 $HOME/.config/hypr/waybar/scripts/radar.py",
+  "size": 28,
+  "fps": 10,
+  "on-click": "qs ipc -c island call center toggle",
+  "on-click-right": "qs ipc -c island call center dnd"
+},
+"hyprland/window#punk": {
+  // poster-type window title (Bebas Neue is caps-only)
+  "format": "{}",
+  "max-length": 11,
+  "separate-outputs": true,
+  "rewrite": {
+    "(.*) — Mozilla Firefox": "$1",
+    "(.*) - Chromium": "$1",
+    "(.*) - (zsh|fish|bash)": "> $1",
+    "": "no signal"
+  }
+},
+
+// ---------------- clock: big comic numerals + small date tag ----------------
+"clock#punk": {
+  "interval": 5,
+  "format": "{:%I:%M}",
+  "format-alt": "{:%H:%M}",
+  "tooltip-format": "<tt><small>{calendar}</small></tt>",
+  "calendar": {
+    "mode": "month", "mode-mon-col": 3, "weeks-pos": "right", "on-scroll": 1,
+    "format": {
+      "months":   "<span color='#F5F0E8'><b>{}</b></span>",
+      "days":     "<span color='#AAA2B2'>{}</span>",
+      "weeks":    "<span color='#00B8FF'><b>W{:%V}</b></span>",
+      "weekdays": "<span color='#FFD43B'><b>{}</b></span>",
+      "today":    "<span background='#FF1744' color='#0B090D'><b> {} </b></span>"
+    }
+  },
+  "actions": { "on-scroll-up": "shift_up", "on-scroll-down": "shift_down" },
+  // island timer: right-click = Pomodoro (25 min focus / 5 min break, again to stop), middle-click = pick minutes
+  "on-click-right": "qs ipc -c island call timer toggle",
+  "on-click-middle": "$HOME/.config/hypr/waybar/scripts/timer-pick.sh"
+},
+"clock#pdate": {
+  "interval": 60,
+  "format": "{:%a %d %b}",
+  "tooltip-format": "{:%A, %d %B %Y}"
+},
+
+// ---------------- HUD: CPU · RAM · GPU · temp ----------------
+"cpu#punk": {
+  "interval": 3,
+  "format": "{usage}%",
+  "states": { "warning": 70, "critical": 90 },
+  "tooltip": true,
+  "on-click-right": "$HOME/.config/hypr/scripts/WaybarScripts.sh --btop"
+},
+"memory#punk": {
+  "interval": 5,
+  "format": "{percentage}%",
+  "states": { "warning": 75, "critical": 90 },
+  "tooltip-format": "RAM {used:0.1f} / {total:0.1f} GiB\nSwap {swapUsed:0.1f} / {swapTotal:0.1f} GiB",
+  "on-click-right": "$HOME/.config/hypr/scripts/WaybarScripts.sh --btop"
+},
+"custom/gpu": {
+  // NVIDIA dGPU load; shows "zz" while the card sleeps (never wakes it) — scripts/gpu.py
+  "exec": "env PUNK_ICONS=1 python3 $HOME/.config/hypr/waybar/scripts/gpu.py",
+  "return-type": "json",
+  "format": "{}",
+  "on-click-right": "kitty -e nvtop"
+},
+
+// ---------------- right ----------------
+// Spider-Punk icons: these widgets run with PUNK_ICONS=1, which drops their font glyph and sends a
+// state class; the matching ink SVG (assets/punk/icons) is set in style/Spider-Punk.css.
+"cffi/wifi":      { "exec": "env PUNK_ICONS=1 python3 \"$HOME/.config/hypr/waybar/scripts/wifi.py\" status" },
+"cffi/workspaces": {
+  // same as ModulesClean, with app icons coloured by kind (web blue, terminal yellow, code magenta…)
+  "module_path": "/home/dog/.config/hypr/waybar/cffi/workspaces-widget.so",
+  "exec": "env PUNK_ICONS=1 python3 \"$HOME/.config/hypr/waybar/scripts/workspaces.py\""
+},
+"custom/privacy": {
+  // red "ON AIR" tag + mic / screen / camera icons while recording, sharing or on camera (hidden otherwise)
+  "exec": "env PUNK_ICONS=1 python3 $HOME/.config/hypr/waybar/scripts/privacy.py",
+  "return-type": "json",
+  "format": "{}"
+},
+"custom/clipboard": {
+  // clipboard history (cliphist): click = picker (same as Super+V), right-click = clear after asking
+  "exec": "$HOME/.config/hypr/waybar/scripts/clipboard.sh",
+  "return-type": "json",
+  "interval": 10,
+  "format": "{}",
+  "on-click": "$HOME/.config/hypr/scripts/ClipManager.sh",
+  "on-click-right": "zenity --question --title=Clipboard --text='Clear the whole clipboard history?' && cliphist wipe && notify-send -a Clipboard -t 2000 'Clipboard history cleared'"
+},
+"cffi/tailscale": {
+  // Tailscale icon; click = menu (devices: copy / SSH / ping / Taildrop, exit node, settings); right-click = connect / disconnect
+  "module_path": "/home/dog/.config/hypr/waybar/cffi/menu-widget.so",
+  "name": "tailscale",
+  "exec": "env PUNK_ICONS=1 python3 \"$HOME/.config/hypr/waybar/scripts/tailscale.py\" status",
+  "on-click-right": "python3 \"$HOME/.config/hypr/waybar/scripts/tailscale.py\" toggle"
+},
+"cffi/sound":     { "exec": "env PUNK_ICONS=1 python3 \"$HOME/.config/hypr/waybar/scripts/sound.py\" status" },
+"cffi/bluetooth": { "exec": "env PUNK_ICONS=1 python3 \"$HOME/.config/hypr/waybar/scripts/bluetooth.py\" status --cffi" },
+"cffi/system":    { "exec": "env PUNK_ICONS=1 python3 \"$HOME/.config/hypr/waybar/scripts/system.py\" status" },
+"cffi/ai":        { "exec": "env PUNK_ICONS=1 python3 \"$HOME/.config/hypr/waybar/scripts/ai.py\" status" },
+"custom/updates": { "exec": "env PUNK_ICONS=1 $HOME/.config/hypr/waybar/scripts/updates.sh" },
+"idle_inhibitor#punk": {
+  "format": " ",                 // cup icon comes from CSS (empty = may sleep, full = kept awake)
+  "tooltip-format-activated": "Stay awake: ON\nScreen won't dim, lock or sleep\nClick to turn off",
+  "tooltip-format-deactivated": "Stay awake: off\nClick to keep the screen awake"
+},
+"backlight#punk": {
+  "format": " ",                 // sun icon comes from CSS
+  "format-icons": [ "󰃞", "󰃟", "󰃠" ],
+  "tooltip-format": "Brightness {percent}%  ·  scroll to change",
+  "on-scroll-up": "$HOME/.config/hypr/scripts/Brightness.sh --inc",
+  "on-scroll-down": "$HOME/.config/hypr/scripts/Brightness.sh --dec",
+  "smooth-scrolling-threshold": 1
+},
+"battery#punk": {
+  "full-at": 100,
+  // states only pick the icon (bat-good / half / warning / critical); text has no glyph
+  "states": { "good": 100, "high": 80, "half": 60, "mid": 45, "warning": 30, "critical": 15 },
+  // icon only while it's fine; the number shows when low (<= 30 %), charging or plugged in
+  "format": " ",
+  "format-warning": "{capacity}%",
+  "format-critical": "{capacity}%",
+  "format-charging": "{capacity}%",
+  "format-plugged": "{capacity}%",
+  "format-full": " ",
+  "format-icons": [ "󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹" ],
+  // health = full charge now vs. design (energy_full / energy_full_design); this battery doesn't report cycles
+  "tooltip-format": "Battery {capacity}%\n{timeTo}  ·  {power:.1f} W\nHealth {health}% of original capacity",
+  "on-click": "qs ipc -c island call center toggle"
+}
+}

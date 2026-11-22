@@ -1,0 +1,181 @@
+/* ---- Obsidian-Glass rofi theme ----
+ * Centred floating launcher on frosted dark glass. The window is translucent;
+ * Hyprland's layer blur provides the frost behind it. No background images.
+ * Palette: bg rgba(16,17,22,0.78) · surface #191B23 · border #394251
+ *          fg #E6E8F0 · sub #9CA4B5 · muted #687184
+ *          accent blue #78B9E7 · accent cyan #7ED6DE
+ * Element names kept compatible with the KoolDots config-*.rasi overrides
+ * (window, inputbar, entry, listview, element, element-icon, element-text).
+ */
+configuration {
+    show-icons:           true;
+    display-drun:         "Apps";
+    display-run:          "Run";
+    display-filebrowser:  "Files";
+    display-window:       "Windows";
+    drun-display-format:  "{name}";
+    window-format:        "{w} · {c} · {t}";
+    hover-select:         true;
+    me-select-entry:      "MouseSecondary";
+    me-accept-entry:      "MousePrimary";
+}
+
+* {
+    font:              "Noto Sans 12";
+    mono:              "JetBrainsMono Nerd Font 12";
+    glass:             rgba(16, 17, 22, 78%);
+    surface:           #191B23;
+    line:              #394251;
+    fg:                #E6E8F0;
+    sub:               #9CA4B5;
+    muted:             #687184;
+    blue:              #78B9E7;
+    blue-soft:         rgba(120, 185, 231, 22%);
+    cyan:              #7ED6DE;
+    urgent:            #E78A8A;
+    background-color:  transparent;
+    text-color:        @fg;
+    border-color:      @line;
+}
+
+window {
+    transparency:      "real";
+    location:          center;
+    anchor:            center;
+    fullscreen:        false;
+    width:             640px;
+    border:            1px;
+    border-radius:     14px;
+    border-color:      @line;
+    background-color:  @glass;
+    padding:           14px;
+    cursor:            "default";
+}
+mainbox {
+    padding:           0px;
+    spacing:           10px;
+    background-color:  transparent;
+    children:          [ "inputbar", "message", "listview", "mode-switcher" ];
+}
+
+/* ---- search ---- */
+inputbar {
+    padding:           10px 14px;
+    spacing:           10px;
+    border:            0px;
+    border-radius:     10px;
+    background-color:  @surface;
+    text-color:        @fg;
+    children:          [ "textbox-search", "entry", "prompt" ];
+}
+textbox-search {
+    expand:            false;
+    str:               "";
+    font:              "JetBrainsMono Nerd Font 13";
+    text-color:        @muted;
+    vertical-align:    0.5;
+    background-color:  transparent;
+}
+entry {
+    font:              "Noto Sans 13";
+    text-color:        @fg;
+    placeholder:       "Search";
+    placeholder-color: @muted;
+    cursor:            text;
+    vertical-align:    0.5;
+    background-color:  transparent;
+}
+prompt {
+    expand:            false;
+    font:              "JetBrainsMono Nerd Font 10";
+    text-color:        @muted;
+    vertical-align:    0.5;
+    background-color:  transparent;
+}
+textbox-prompt-colon, case-indicator, num-filtered-rows, num-rows, textbox-num-sep { enabled: false; }
+
+/* ---- message (-mesg) ---- */
+message {
+    padding:           0px;
+    background-color:  transparent;
+}
+textbox {
+    padding:           8px 12px;
+    border:            0px;
+    border-radius:     8px;
+    background-color:  @surface;
+    text-color:        @sub;
+    vertical-align:    0.5;
+    markup:            true;
+}
+
+/* ---- results ---- */
+listview {
+    padding:           0px;
+    spacing:           2px;
+    lines:             8;
+    columns:           1;
+    fixed-height:      false;
+    fixed-columns:     true;
+    dynamic:           true;
+    cycle:             true;
+    scrollbar:         false;
+    background-color:  transparent;
+    cursor:            "default";
+}
+element {
+    padding:           7px 10px;
+    spacing:           12px;
+    border:            0px;
+    border-radius:     8px;
+    orientation:       horizontal;
+    children:          [ "element-icon", "element-text" ];
+    cursor:            pointer;
+}
+element normal.normal, element alternate.normal { background-color: transparent; text-color: @fg; }
+element normal.active, element alternate.active { background-color: transparent; text-color: @cyan; }
+element normal.urgent, element alternate.urgent { background-color: transparent; text-color: @urgent; }
+element selected.normal, element selected.active { background-color: @blue-soft; text-color: @fg; }
+element selected.urgent { background-color: @blue-soft; text-color: @urgent; }
+element-icon {
+    size:              28px;
+    vertical-align:    0.5;
+    background-color:  transparent;
+    text-color:        inherit;
+    cursor:            inherit;
+}
+element-text {
+    font:              "Noto Sans 12";
+    vertical-align:    0.5;
+    horizontal-align:  0.0;
+    background-color:  transparent;
+    text-color:        inherit;
+    highlight:         bold #7ED6DE;
+    cursor:            inherit;
+}
+
+/* ---- mode switcher ---- */
+mode-switcher {
+    padding:           0px;
+    spacing:           6px;
+    background-color:  transparent;
+}
+button {
+    padding:           6px 12px;
+    font:              "JetBrainsMono Nerd Font 10";
+    border:            0px;
+    border-radius:     8px;
+    background-color:  @surface;
+    text-color:        @muted;
+    cursor:            pointer;
+}
+button selected { background-color: @blue-soft; text-color: @fg; }
+
+error-message {
+    padding:           14px 16px;
+    border:            1px;
+    border-radius:     14px;
+    border-color:      @line;
+    background-color:  @glass;
+    text-color:        @fg;
+}

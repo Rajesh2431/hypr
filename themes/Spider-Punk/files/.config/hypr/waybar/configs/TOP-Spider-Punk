@@ -1,0 +1,64 @@
+/* ---- Spider-Punk (top) — comic-panel HUD matched to the Spider-Punk wallpaper ----
+ * main (eDP-1):
+ *   left   : spider menu · workspaces (comic panels) · window title | BIG clock · date · weather · photo
+ *   center : the Dynamic Island (~/.config/quickshell/island) overlays it
+ *   right  : HUD (CPU · RAM · GPU · temp ▾) | privacy · tray · wifi ▾ (hover = speeds) · bluetooth ▾ ·
+ *            sound ▾ · brightness · battery · AI · bell(+updates) · power
+ * other monitors: spider · workspaces · title | clock · date · weather   …   sound · battery · bell · power
+ * Modules: ../ModulesPunk (first) + ../ModulesClean   Style: style/Spider-Punk.css
+ * Previous layout: TOP-Clean-Islands (unchanged; pick it from the layout menu)
+ */
+[
+{
+  "name": "main",
+  "output": "eDP-1",
+  "include": [
+    "$HOME/.config/hypr/waybar/ModulesPunk",
+    "$HOME/.config/hypr/waybar/ModulesClean",
+    "$HOME/.config/hypr/waybar/Modules",
+    "$HOME/.config/hypr/waybar/ModulesWorkspaces",
+    "$HOME/.config/hypr/waybar/ModulesCustom",
+    "$HOME/.config/hypr/waybar/ModulesGroups",
+    "$HOME/.config/hypr/waybar/UserModules"
+  ],
+  "layer": "top",
+  "exclusive": true,
+  "passthrough": false,
+  "position": "top",
+  "spacing": 0,
+  "fixed-center": true,
+  "ipc": true,
+  "margin-top": 4,
+  "margin-left": 8,
+  "margin-right": 8,
+  "modules-left":   [ "group/pleft", "group/pclock" ],
+  "modules-center": [ ],
+  "modules-right":  [ "group/phud", "group/pright" ]
+},
+{
+  "name": "secondary",
+  "output": [ "!eDP-1", "*" ],
+  "include": [
+    "$HOME/.config/hypr/waybar/ModulesPunk",
+    "$HOME/.config/hypr/waybar/ModulesClean",
+    "$HOME/.config/hypr/waybar/Modules",
+    "$HOME/.config/hypr/waybar/ModulesWorkspaces",
+    "$HOME/.config/hypr/waybar/ModulesCustom",
+    "$HOME/.config/hypr/waybar/ModulesGroups",
+    "$HOME/.config/hypr/waybar/UserModules"
+  ],
+  "layer": "top",
+  "exclusive": true,
+  "passthrough": false,
+  "position": "top",
+  "spacing": 0,
+  "fixed-center": true,
+  "ipc": true,
+  "margin-top": 4,
+  "margin-left": 8,
+  "margin-right": 8,
+  "modules-left":   [ "group/pleft", "group/pclock" ],
+  "modules-center": [ ],
+  "modules-right":  [ "group/pright2" ]
+}
+]

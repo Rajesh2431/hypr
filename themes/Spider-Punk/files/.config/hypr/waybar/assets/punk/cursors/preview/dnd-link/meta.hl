@@ -1,0 +1,7 @@
+resize_algorithm = bilinear
+hotspot_x = 0.156
+hotspot_y = 0.102
+
+define_size = 0, dnd-link-00.svg
+
+define_override = alias

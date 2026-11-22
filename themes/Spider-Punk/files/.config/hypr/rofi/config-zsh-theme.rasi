@@ -1,0 +1,11 @@
+/* config-zsh-theme.rasi — Island / Spotlight style (generated). Original KoolDots version:
+ * ~/.config/hypr/rofi-backup-before-island.tar.gz */
+configuration {
+    modi: "drun";
+}
+
+@import "~/.config/hypr/rofi/config.rasi"
+
+element-icon { size: 0px; }
+element { children: [ "element-text" ]; }
+entry { placeholder: "Choose Zsh theme"; }

@@ -1,0 +1,158 @@
+/* ---- Clean Islands ----
+ * Three rounded islands, one consistent size for every item, readable text,
+ * clear hover/active states. Colors follow your wallpaper (wallust).
+ * Pair with layout: configs/TOP-Clean-Islands
+ */
+@import "../waybar/wallust/colors-waybar.css";  /* resolved from ~/.config/hypr/waybar/style.css (symlink) */
+
+@define-color island   alpha(@background, 0.82);
+@define-color edge     alpha(@color15, 0.10);
+@define-color text     @color15;
+@define-color subtext  alpha(@color15, 0.62);
+@define-color accent   @color12;
+@define-color hover    alpha(@color15, 0.10);
+@define-color warn     #f5c26b;
+@define-color danger   #ff6b6b;
+
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-weight: 600;
+  font-size: 13px;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+window#waybar {
+  background: transparent;
+  color: @text;
+}
+
+/* ---------------- islands ---------------- */
+#left, #time, #media, #right {
+  background-color: @island;
+  border: 1px solid @edge;
+  border-radius: 14px;
+  padding: 0 6px;
+}
+/* one gap size everywhere */
+#left  { margin-right: 8px; }
+#time  { margin-right: 0; }
+#right { margin-left: 8px; }
+#custom-fill { padding: 0; margin: 0; background: transparent; }
+#media { padding: 0 8px 0 4px; }
+
+/* ---------------- every item: same height, same padding ---------------- */
+#custom-menu, #custom-light_dark, #custom-file_manager, #custom-tty, #custom-browser, #custom-settings,
+#custom-hypr_layout, #window, #submap,
+#clock, #custom-weather2, #image,
+#custom-cava_mviz, #custom-playerctl,
+#tray, #network, #temperature, #cpu, #power-profiles-daemon, #memory, #disk,
+#pulseaudio, #backlight, #battery, #custom-nightlight, #idle_inhibitor,
+#custom-swaync, #custom-dot_update, #custom-power, #custom-lock, #keyboard-state, #custom-keyboard {
+  padding: 0 9px;
+  margin: 4px 1px;
+  border-radius: 10px;
+  color: @text;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+#custom-menu:hover, #custom-light_dark:hover, #custom-file_manager:hover, #custom-tty:hover,
+#custom-browser:hover, #custom-settings:hover, #custom-hypr_layout:hover,
+#clock:hover, #custom-weather2:hover, #custom-playerctl:hover,
+#network:hover, #temperature:hover, #cpu:hover, #power-profiles-daemon:hover, #memory:hover, #disk:hover,
+#pulseaudio:hover, #backlight:hover, #battery:hover, #custom-nightlight:hover, #idle_inhibitor:hover,
+#custom-swaync:hover, #custom-dot_update:hover, #custom-power:hover, #custom-lock:hover, #custom-keyboard:hover {
+  background-color: @hover;
+}
+
+/* ---------------- left ---------------- */
+#custom-menu { color: @accent; font-size: 15px; padding: 0 10px 0 8px; }
+#custom-hypr_layout { color: @subtext; }
+#window { color: @subtext; font-weight: 500; }
+window#waybar.empty #window { background: transparent; }
+#submap { background-color: @accent; color: @background; }
+
+#workspaces { margin: 0 4px; }
+#workspaces button {
+  padding: 0 7px;
+  margin: 5px 2px;
+  border-radius: 9px;
+  color: @subtext;
+  background: transparent;
+  transition: all 250ms ease;
+}
+#workspaces button:hover { background-color: @hover; color: @text; }
+#workspaces button.active {
+  background-color: @accent;
+  color: @background;
+  padding: 0 13px;
+}
+#workspaces button.urgent { background-color: @danger; color: @background; }
+#workspaces button.empty { color: alpha(@color15, 0.35); }
+
+/* ---------------- center ---------------- */
+#clock { font-weight: 700; font-size: 14px; }
+#custom-weather2 { color: @subtext; }
+#image { padding: 0 6px; }
+#custom-cava_mviz { color: @accent; padding: 0 6px; }
+#custom-playerctl { color: @subtext; }
+#custom-playerctl.Paused { color: alpha(@color15, 0.4); }
+
+/* Spotify widget sits flat inside the media island */
+#spotify-cffi {
+  margin: 4px 2px;
+  padding: 0 8px 0 4px;
+  border: none;
+  border-radius: 10px;
+  background-color: alpha(#1DB954, 0.12);
+}
+#spotify-cffi.paused, #spotify-cffi.idle { background-color: transparent; }
+
+/* ---------------- right ---------------- */
+#tray { padding: 0 8px; }
+#tray > .passive { -gtk-icon-effect: dim; }
+#tray > .needs-attention { -gtk-icon-effect: highlight; background-color: alpha(@danger, 0.3); }
+
+#network { color: @text; }
+/* bluetooth is an event box (ignores padding): pad the label so the whole pill is clickable */
+#apps, #wifi, #bluetooth, #system, #sound { margin: 4px 3px; border-radius: 10px; transition: background-color 200ms ease; }
+#apps label, #wifi label, #bluetooth label, #system label, #sound label { color: @text; padding: 0 10px; min-height: 26px; }
+#apps:hover, #wifi:hover, #bluetooth:hover, #system:hover, #sound:hover { background-color: @hover; }
+#system.critical { background-color: @danger; }
+#system.critical label { color: @background; }
+#sound.muted label { color: alpha(@color15, 0.4); }
+#wifi label { font-size: 15px; }
+#apps label { color: @accent; font-size: 16px; }
+#wifi.off label, #wifi.disconnected label { color: alpha(@color15, 0.4); }
+#bluetooth.connected label { color: #4f9cff; }
+#bluetooth.off label, #bluetooth.missing label { color: alpha(@color15, 0.4); }
+#network.disconnected { color: @danger; }
+
+#temperature.critical, #battery.critical:not(.charging) { background-color: @danger; color: @background; }
+#battery.warning:not(.charging) { color: @warn; }
+#battery.charging, #battery.plugged { color: @accent; }
+#cpu, #memory, #disk, #power-profiles-daemon { color: @subtext; }
+
+#pulseaudio.muted:not(.microphone), #pulseaudio.microphone.source-muted { color: alpha(@color15, 0.4); }
+#idle_inhibitor { font-size: 15px; }
+#idle_inhibitor.activated { background-color: alpha(@accent, 0.25); color: @accent; }
+
+#custom-power { color: @danger; padding: 0 10px; }
+#custom-updates { padding: 0 10px; margin: 4px 2px; border-radius: 10px; color: @accent; }
+#custom-updates:hover { background-color: @hover; }
+#custom-privacy { color: #ff9f43; margin: 4px 2px; padding: 0 9px; border-radius: 10px; background-color: alpha(#ff9f43, 0.22); }
+#custom-nightlight { font-size: 15px; }
+/* icon-only buttons: wider targets so the pointer doesn't land on a neighbour */
+#custom-nightlight, #idle_inhibitor, #custom-power, #custom-swaync { padding: 0 11px; margin: 4px 2px; }
+#custom-nightlight.on { color: #ffb86b; background-color: alpha(#ffb86b, 0.15); }
+
+/* ---------------- tooltips ---------------- */
+tooltip {
+  background-color: alpha(@background, 0.96);
+  border: 1px solid alpha(@accent, 0.35);
+  border-radius: 12px;
+}
+tooltip label { color: @text; padding: 4px 6px; font-weight: 500; }

@@ -1,0 +1,42 @@
+//* ---- 💫 https://github.com/LinuxBeginnings 💫 ---- *//
+/* Waybar Modules Extras */
+
+/* This is where you can add Extra Modules you wish. copy.sh will try to restore*/
+/* this file along with the unique configs and styles. */
+/* IMPORTANT, be mindful with , or ". else waybar will not start */
+/* Included last: add new module names here. Existing values in earlier */
+/* includes take precedence; override those in the layout or source module. */
+
+{
+  // Spotify: album-art thumbnail + lyrics; hover = big cover pop-down (cffi/spotify-widget.c)
+  "cffi/spotify": {
+    "module_path": "/home/dog/.config/hypr/waybar/cffi/spotify-widget.so",
+    "exec": "env SPOTIFY_BAR_CHARS=52 python3 \"$HOME/.config/hypr/waybar/scripts/spotify.py\" status --cffi",
+    "size": 22,
+    "cover-size": 280,
+    "hover-delay": 150,
+    "tooltip-width-chars": 38,
+    "label-chars": 52,
+    "hide-group-when-idle": "media",
+    "on-click": "python3 \"$HOME/.config/hypr/waybar/scripts/spotify.py\" click",
+    "on-click-middle": "python3 \"$HOME/.config/hypr/waybar/scripts/spotify.py\" like",
+    "on-click-right": "python3 \"$HOME/.config/hypr/waybar/scripts/spotify.py\" menu",
+    "on-click-backward": "python3 \"$HOME/.config/hypr/waybar/scripts/spotify.py\" prev",
+    "on-click-forward": "python3 \"$HOME/.config/hypr/waybar/scripts/spotify.py\" next",
+    "on-scroll-up": "python3 \"$HOME/.config/hypr/waybar/scripts/spotify.py\" volup",
+    "on-scroll-down": "python3 \"$HOME/.config/hypr/waybar/scripts/spotify.py\" voldown",
+    "smooth-scrolling-threshold": 2
+  },
+  "cffi/photos": {
+    "module_path": "/home/dog/.config/hypr/waybar/cffi/photo-preview.so",
+    "exec": "python3 \"$HOME/.config/hypr/waybar/scripts/photo-showcase.py\" --directory \"$HOME/Pictures/waybar\" --delay 30",
+    "size": 28,
+    "preview-width": 400,
+    "preview-height": 300,
+    "hover-delay": 100,
+    // Poll for new files; --delay above controls the slideshow speed.
+    "interval": 5,
+    "on-click": "python3 \"$HOME/.config/hypr/waybar/scripts/photo-showcase.py\" --directory \"$HOME/Pictures/waybar\" --open",
+    "tooltip": true
+  }
+}

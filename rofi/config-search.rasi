@@ -1,0 +1,7 @@
+/* config-search.rasi — Island / Spotlight style (generated). Original KoolDots version:
+ * ~/.config/hypr/rofi-backup-before-island.tar.gz */
+@import "~/.config/hypr/rofi/config.rasi"
+
+listview { lines: 0; }
+inputbar { border: 0px; }
+entry { placeholder: "Search Google"; }

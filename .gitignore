@@ -1,0 +1,38 @@
+# ~/.config/hypr — what stays OUT of the (public) repo
+
+# wallpapers + generated wallpaper copies (large, mostly third-party artwork)
+wallpaper_effects/
+themes/*/wallpaper
+themes/*/preview.png
+waybar/assets/glass/obsidian-glass.png
+
+# personal images (portrait sticker used on the lock screen, and images made from it)
+waybar/assets/punk/lock/portrait-src.png
+waybar/assets/punk/lock/avatar.png
+waybar/assets/punk/lock/cover.png
+waybar/assets/punk/lock-portrait.png
+themes/*/files/.config/hypr/waybar/assets/punk/lock/portrait-src.png
+themes/*/files/.config/hypr/waybar/assets/punk/lock/avatar.png
+themes/*/files/.config/hypr/waybar/assets/punk/lock/cover.png
+themes/*/files/.config/hypr/waybar/assets/punk/lock-portrait.png
+
+# backups, snapshots and state of the style switcher (UserScripts/Styles.sh)
+themes/_backups/
+themes/_previous/
+themes/.current
+themes/.switching/
+themes/.lock
+themes/.*.new/
+themes/.restore.*
+
+# machine-specific links and runtime files
+**/rofi/.current_wallpaper*
+*.tmp
+*.bak
+*.bak-*
+*.bak.*
+__pycache__/
+*.pyc
+
+# KoolDots helper binary for Ubuntu (not used on Arch)
+scripts/dots-tui-ubuntu-2404

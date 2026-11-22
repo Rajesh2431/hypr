@@ -1,0 +1,1 @@
+/home/dog/.config/kitty/tab_bar.py

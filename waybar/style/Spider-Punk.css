@@ -1,0 +1,461 @@
+/* ==================================================================
+ *  SPIDER-PUNK — a hand-printed punk zine HUD
+ *  Matched to the Spider-Punk wallpaper: torn-paper cut-outs, black ink
+ *  outlines, CMYK misprint offsets, halftone dots, crimson + electric blue
+ *  with yellow lightning for the loud bits.
+ *
+ *  Layout  : configs/TOP-Spider-Punk     Modules: ModulesPunk
+ *  Tokens  : style/punk/tokens.css (mirrored in quickshell/island/Punk.qml)
+ *  Assets  : assets/punk/ (SVG) (regenerate: python3 assets/punk/make-assets.py)
+ *  Type    : Bangers (clock) · Bebas Neue (labels) · JetBrainsMono Nerd Font (data)
+ * ================================================================== */
+/* Waybar 0.16 hover: custom modules get the hover flag on a parent box (icon support),
+ * so every #custom-x:hover rule also matches as `box:hover > #custom-x`. */
+@import url("file:///home/dog/.config/hypr/waybar/style/punk/tokens.css");
+
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-weight: 700;
+  font-size: 12.5px;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+window#waybar { background: transparent; color: @text; }
+
+/* ---------------- the four comic panels (each its own personality) ---------------- */
+#pleft, #pclock, #phud, #pright, #pright2 {
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  padding: 3px 9px 6px 7px;           /* bottom/right leave room for the printed misprint */
+  margin: 0;
+}
+#pleft   { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/panel-left.svg");  margin-right: 4px; }
+#pclock  { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/panel-clock.svg"); padding: 1px 12px 5px 12px; margin-top: 1px; }
+#phud    { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/panel-hud.svg");   margin-right: 4px; padding-left: 9px; margin-top: 2px; }
+#pright, #pright2 { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/panel-right.svg"); }
+
+/* ---------------- every item: shared hover = ink spreading up from the bottom ---------------- */
+#window, #submap, #clock, #custom-weather2, #image,
+#tray, #cpu, #memory, #custom-gpu, #backlight, #battery,
+#custom-power, #custom-updates, #custom-privacy, #custom-notify {
+  padding: 0 7px;
+  margin: 3px 0;
+  color: @text;
+  box-shadow: inset 0 0 0 0 alpha(@blue, 0);
+  transition: box-shadow 260ms cubic-bezier(.2, .9, .3, 1.2), color 160ms ease, background-color 160ms ease;
+}
+#apps, #wifi, #bluetooth, #system, #sound, #ai {
+  margin: 3px 0;
+  box-shadow: inset 0 0 0 0 alpha(@blue, 0);
+  transition: box-shadow 260ms cubic-bezier(.2, .9, .3, 1.2);
+}
+#apps label, #wifi label, #bluetooth label, #system label, #sound label, #ai label {
+  color: @text; padding: 0 7px; min-height: 26px;
+}
+#custom-weather2:hover, box:hover > #custom-weather2, #image:hover, #cpu:hover, #memory:hover, #custom-gpu:hover, box:hover > #custom-gpu,
+#backlight:hover, #battery:hover, #custom-updates:hover, box:hover > #custom-updates, #custom-notify:hover, box:hover > #custom-notify,
+#wifi:hover, #bluetooth:hover, #system:hover, #sound:hover, #ai:hover {
+  box-shadow: inset 0 -26px 0 0 alpha(@blue, 0.22), inset 0 -3px 0 0 @blue;
+}
+
+/* ---------------- left: spider + comic-panel workspaces + poster title ---------------- */
+#apps {
+  background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/spider.svg");
+  background-repeat: no-repeat;
+  background-size: 28px 28px;
+  background-position: center;
+  min-width: 36px;
+  transition: background-size 200ms cubic-bezier(.3, 1.6, .5, 1);
+}
+#apps label { color: transparent; font-size: 16px; }   /* the feed's glyph keeps the width; the spider replaces it */
+#apps:hover { background-size: 32px 32px; box-shadow: none; }
+
+#workspaces { margin: 0 4px 0 2px; }
+#workspaces button {
+  padding: 0 9px;
+  margin: 3px 1px;
+  min-height: 26px;
+  color: @subtext;
+  background: transparent;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  font-family: "Bebas Neue", "JetBrainsMono Nerd Font";
+  font-size: 17px;
+  font-weight: 400;
+  transition: color 120ms ease, padding 220ms cubic-bezier(.3, 1.7, .5, 1);
+}
+#workspaces button label { color: inherit; font-family: inherit; font-size: inherit; }
+#workspaces button:hover {
+  color: @text;
+  background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/ws-hover.svg");
+}
+/* active: a crimson comic panel slams in (overshoot padding) with a one-shot RGB-split glitch */
+#workspaces button.active {
+  color: @text;
+  padding: 0 15px;
+  background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/ws-active.svg");
+  text-shadow: 1px 1px 0 @ink, -1px 0 0 alpha(@blue, 0.9);
+  animation: ws-glitch 420ms steps(1) 1;
+}
+#workspaces button.active label { color: @text; }
+#workspaces button.active.empty, #workspaces button.active.empty label { color: @text; }
+#workspaces button.urgent {
+  color: @ink;
+  background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/ws-urgent.svg");
+  animation: urgent-shake 600ms ease-in-out 2;
+}
+#workspaces button.urgent label { color: @ink; }
+#workspaces button.empty, #workspaces button.empty label { color: @faint; }
+
+@keyframes ws-glitch {
+  0%   { text-shadow: 3px 0 0 @blue, -3px 0 0 @yellow; }
+  25%  { text-shadow: -2px 1px 0 @blue, 2px -1px 0 @crimson; }
+  50%  { text-shadow: 2px 0 0 @yellow, -1px 1px 0 @blue; }
+  75%  { text-shadow: -1px 0 0 @blue, 1px 0 0 @ink; }
+  100% { text-shadow: 1px 1px 0 @ink, -1px 0 0 alpha(@blue, 0.9); }
+}
+@keyframes urgent-shake {
+  0%   { padding: 0 9px; }
+  100% { padding: 0 9px; }
+  25% { padding: 0 12px 0 6px; }
+  75% { padding: 0 6px 0 12px; }
+}
+
+#window {
+  font-family: "Bebas Neue", "JetBrainsMono Nerd Font";
+  font-size: 17px;
+  font-weight: 400;
+  color: @text;
+  padding: 0 8px 0 10px;
+  margin-left: 2px;
+  border-left: 2px dashed alpha(@crimson, 0.7);
+  text-shadow: 1px 1px 0 alpha(@crimson, 0.65);
+}
+#window label { font-family: "Bebas Neue", "JetBrainsMono Nerd Font"; font-size: 18px; font-weight: 400; color: inherit; }
+window#waybar.empty #window { color: @faint; text-shadow: none; }
+#submap { background-color: @yellow; color: @ink; font-family: "Bebas Neue"; font-size: 16px; }
+
+/* ---------------- clock panel: crimson poster, big Bangers numerals ---------------- */
+#clock {
+  font-family: "Bangers", "JetBrainsMono Nerd Font";
+  font-weight: 400;
+  font-size: 23px;
+  letter-spacing: 1px;
+  color: @text;
+  padding: 0 4px 0 2px;
+  margin: 1px 0 0 0;
+  text-shadow: 2px 2px 0 @ink, -1px -1px 0 alpha(@blue, 0.85);
+}
+#clock.pdate {
+  font-family: "Bebas Neue", "JetBrainsMono Nerd Font";
+  font-size: 15px;
+  letter-spacing: 1px;
+  color: @ink;
+  background-color: @text;
+  padding: 0 6px;
+  margin: 8px 6px 7px 4px;
+  text-shadow: none;
+  box-shadow: 2px 2px 0 0 @ink;
+}
+#custom-weather2 {
+  color: @text;
+  padding-left: 8px;
+  text-shadow: 1px 1px 0 @ink;
+  background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/bolt.svg");   /* lightning separator */
+  background-repeat: no-repeat;
+  background-size: 9px 16px;
+  background-position: 0 50%;
+}
+#image { padding: 0 3px; }
+
+/* ---------------- HUD panel: data in mono, each meter its own ink colour ---------------- */
+#cpu        { color: @text; }
+#memory     { color: @text; }
+#custom-gpu { color: @text; }
+#cpu.warning, #memory.warning, #custom-gpu.warning { color: @yellow; }
+#cpu.critical, #memory.critical, #custom-gpu.critical {
+  color: @ink; background-color: @crimson; animation: hot-pulse 900ms ease-in-out 3;
+}
+#custom-gpu.sleep { color: @faint; }
+#system.critical { background-color: @crimson; }
+#system.critical label { color: @ink; }
+
+/* ---------------- right panel ---------------- */
+#tray { padding: 0 6px; }
+#tray > .passive { -gtk-icon-effect: dim; }
+#tray > .needs-attention { -gtk-icon-effect: highlight; background-color: alpha(@crimson, 0.35); }
+
+#wifi label { font-size: 15px; }
+#wifi.off label, #wifi.disconnected label { color: @faint; }
+#wifi #hover, #ai #hover { color: @blue; padding: 0 8px 0 0; }
+#bluetooth.connected label { color: @blue; }
+#bluetooth.off label, #bluetooth.missing label { color: @faint; }
+#sound.muted label { color: @faint; }
+#backlight { font-size: 14px; }
+
+#battery.charging, #battery.plugged { color: @blue; }
+#battery.full { color: @text; }
+#battery.warning:not(.charging) { color: @yellow; }
+#battery.critical:not(.charging) { color: @ink; background-color: @crimson; animation: hot-pulse 900ms ease-in-out infinite; }
+
+#custom-privacy { color: @ink; background-color: @orange; animation: hot-pulse 1.4s ease-in-out 2; }
+
+#custom-notify { padding: 0 9px; }
+#custom-notify.empty { color: @subtext; }
+#custom-notify.unread { color: @yellow; animation: bell-ring 700ms ease-out 2; }
+#custom-notify.focus { color: @purple; box-shadow: inset 0 -3px 0 0 @purple; }
+#notifydrawer .drawer-child { margin-right: 0; }
+
+/* power: original ink icon (assets/punk/power.svg); on hover it goes off like a comic
+ * "POW!": the yellow starburst (power-burst.svg) punches in with an overshoot and shakes once */
+#custom-power {
+  color: transparent;                 /* the feed's ⏻ keeps the width; the SVG replaces it */
+  text-shadow: none;
+  padding: 0 12px;
+  min-width: 14px;
+  font-size: 14px;
+  background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/power.svg");
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: 26px 26px;
+  transition: background-size 260ms cubic-bezier(.3, 1.8, .5, 1), background-image 120ms ease;
+}
+#custom-power:hover, box:hover > #custom-power {
+  color: transparent;
+  background-color: transparent;
+  box-shadow: none;
+  background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/power-burst.svg");
+  background-size: 34px 34px;
+  animation: pow-shake 380ms ease-out 1;
+}
+@keyframes pow-shake {
+  0%   { background-position: 50% 50%; }
+  20%  { background-position: 38% 44%; }
+  40%  { background-position: 62% 56%; }
+  60%  { background-position: 44% 58%; }
+  80%  { background-position: 56% 46%; }
+  100% { background-position: 50% 50%; }
+}
+
+@keyframes hot-pulse {
+  0%   { box-shadow: inset 0 0 0 0 alpha(@yellow, 0); }
+  50%  { box-shadow: inset 0 0 0 2px @yellow; }
+  100% { box-shadow: inset 0 0 0 0 alpha(@yellow, 0); }
+}
+@keyframes bell-ring {
+  0%   { padding: 0 9px;       text-shadow: 0 0 0 transparent; }
+  20%  { padding: 0 6px 0 12px; text-shadow: -2px 0 0 @crimson; }
+  40%  { padding: 0 12px 0 6px; text-shadow: 2px 0 0 @blue; }
+  60%  { padding: 0 7px 0 11px; text-shadow: -1px 0 0 @crimson; }
+  100% { padding: 0 9px;       text-shadow: 0 0 0 transparent; }
+}
+
+/* old Spotify bits (the island plays music now) */
+#spotify-cffi { margin: 3px 2px; padding: 0 8px 0 4px; }
+#custom-cava_mviz { color: @crimson; }
+
+/* ---------------- tooltips: torn crimson-printed panel ---------------- */
+tooltip {
+  background-color: @bg2;
+  background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/dots-crimson.svg");
+  background-size: 12px 12px;
+  border: 2px solid @ink;
+  border-radius: 2px;
+  box-shadow: 3px 3px 0 0 @crimson, -2px -2px 0 0 alpha(@blue, 0.6);
+}
+tooltip label { color: @text; padding: 7px 9px; font-weight: 600; }
+
+/* ---------------- drop-down menus (Wi-Fi, Bluetooth, Sound, System, Spider) ---------------- */
+window.popup { background: transparent; }
+menu, .menu {
+  background-color: @bg2;
+  border: 2px solid @ink;
+  border-radius: 2px;
+  padding: 6px;
+  box-shadow: 4px 4px 0 0 @crimson;
+}
+menu menuitem {
+  min-height: 28px;
+  padding: 2px 12px;
+  border-radius: 0;
+  color: @text;
+  transition: box-shadow 180ms ease, background-color 120ms ease;
+}
+menu menuitem label { color: @text; font-weight: 500; }
+menu menuitem:hover { background-color: alpha(@crimson, 0.22); box-shadow: inset 3px 0 0 0 @crimson; }
+menu menuitem:active { background-color: alpha(@blue, 0.30); box-shadow: inset 3px 0 0 0 @blue; }
+menu menuitem:disabled label { color: @subtext; font-family: "Bebas Neue", "JetBrainsMono Nerd Font"; font-size: 14px; letter-spacing: 1px; }
+menu menuitem arrow { color: @crimson; min-width: 12px; }
+menu menuitem check { color: @ink; background: transparent; border: 2px solid @subtext; border-radius: 0; min-width: 13px; min-height: 13px; }
+menu menuitem check:checked { background-color: @crimson; border-color: @ink; }
+menu separator { background-color: transparent; border-top: 1px dashed alpha(@crimson, 0.5); min-height: 1px; margin: 5px 8px; }
+
+/* Spider-Sense radar (cffi/radar): drawn in cairo; CSS only spaces it */
+#radar { margin: 0 2px; padding: 0 4px; }
+
+/* caffeine / stay-awake (idle_inhibitor#clean): empty cup = may sleep, full cup = kept awake */
+#idle_inhibitor:hover { box-shadow: inset 0 -26px 0 0 alpha(@blue, 0.22), inset 0 -3px 0 0 @blue; }
+
+/* ==================================================================
+ *  ICONS — every bar icon is an original ink SVG (assets/punk/icons, make-icons.py).
+ *  Scripts run with PUNK_ICONS=1 (no font glyph, a state class instead); built-in
+ *  modules have glyph-free formats. Icon = background, text keeps its own padding.
+ * ================================================================== */
+#cpu, #memory, #custom-gpu, #battery, #custom-updates,
+#wifi label, #sound label, #bluetooth label, #system label {
+  background-repeat: no-repeat;
+  background-size: 17px 17px;
+  background-position: 5px 50%;
+  padding-left: 26px;
+}
+/* icon-only buttons: centred, a little bigger */
+#backlight, #idle_inhibitor, #ai label {
+  background-repeat: no-repeat;
+  background-size: 19px 19px;
+  background-position: 50% 50%;
+  min-width: 18px;
+  padding: 0 8px;
+  color: transparent;
+}
+#wifi label {
+  background-repeat: no-repeat; background-size: 19px 19px; background-position: 50% 50%;
+  padding: 0 8px; min-width: 18px;
+}
+#bluetooth.on label, #bluetooth.off label, #bluetooth.missing label {
+  background-position: 50% 50%; background-size: 18px 18px; padding: 0 8px; min-width: 18px;
+}
+#cpu, #memory, #custom-gpu, #battery { padding-right: 8px; }
+#cpu { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/cpu.svg"); }
+#memory { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/ram.svg"); }
+#custom-gpu { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/gpu.svg"); }
+#custom-gpu.sleep { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/gpu-sleep.svg"); }
+#system label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/temp.svg"); }
+#system.critical label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/temp-hot.svg"); }
+#system label { color: @text; }
+#wifi.s0 label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/wifi-0.svg"); }
+#wifi.s1 label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/wifi-1.svg"); }
+#wifi.s2 label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/wifi-2.svg"); }
+#wifi.s3 label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/wifi-3.svg"); }
+#wifi.s4 label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/wifi-4.svg"); }
+#wifi.connected label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/wifi-4.svg"); }
+#wifi.connected.s0 label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/wifi-0.svg"); }
+#wifi.connected.s1 label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/wifi-1.svg"); }
+#wifi.connected.s2 label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/wifi-2.svg"); }
+#wifi.connected.s3 label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/wifi-3.svg"); }
+#wifi.connected.s4 label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/wifi-4.svg"); }
+#wifi.off label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/wifi-off.svg"); }
+#wifi.disconnected label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/wifi-0.svg"); }
+#wifi.ethernet label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/eth.svg"); }
+#bluetooth label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bt-on.svg"); }
+#bluetooth.connected label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bt-connected.svg"); }
+#bluetooth.off label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bt-off.svg"); }
+#bluetooth.missing label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bt-off.svg"); }
+#sound label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/vol-mid.svg"); }
+#sound.vol-low label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/vol-low.svg"); }
+#sound.vol-mid label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/vol-mid.svg"); }
+#sound.vol-high label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/vol-high.svg"); }
+#sound.muted label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/vol-mute.svg"); }
+#sound.muted label { color: @subtext; }
+#backlight { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/sun.svg"); }
+#battery { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bat-half.svg"); }
+#battery.good { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bat-good.svg"); }
+#battery.half { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bat-half.svg"); }
+#battery.warning { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bat-warning.svg"); }
+#battery.critical { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bat-critical.svg"); }
+#battery.charging { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bat-charging.svg"); }
+#battery.plugged { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bat-plugged.svg"); }
+#battery.full { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bat-plugged.svg"); }
+#idle_inhibitor { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/cup-empty.svg"); }
+#idle_inhibitor.activated { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/cup-full.svg"); }
+#idle_inhibitor.activated { background-color: alpha(@yellow, 0.18); box-shadow: inset 0 -3px 0 0 @yellow; color: transparent; }
+#ai label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/ai-ok.svg"); }
+#ai.ok label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/ai-ok.svg"); }
+#ai.warn label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/ai-warn.svg"); }
+#ai.crit label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/ai-crit.svg"); }
+#ai.idle label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/ai-idle.svg"); }
+#custom-updates { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/updates.svg"); }
+#custom-updates { color: @orange; }
+/* hover: the icon "inks up" a size and lifts with the blue fill */
+#cpu:hover, #memory:hover, #custom-gpu:hover, box:hover > #custom-gpu, #battery:hover, #custom-updates:hover, box:hover > #custom-updates,
+#wifi:hover label, #sound:hover label, #bluetooth:hover label, #system:hover label { background-size: 19px 19px; }
+#backlight:hover, #idle_inhibitor:hover, #ai:hover label { background-size: 22px 22px; }
+#cpu, #memory, #custom-gpu, #battery, #custom-updates, #backlight, #idle_inhibitor,
+#wifi label, #sound label, #bluetooth label, #system label, #ai label {
+  transition: background-size 220ms cubic-bezier(.3, 1.8, .5, 1), box-shadow 260ms cubic-bezier(.2, .9, .3, 1.2);
+}
+/* the slide-out hover text (AI %, Wi-Fi speeds) is plain text: no icon, visible colour */
+#ai #hover, #wifi #hover, #ai #hover label, #wifi #hover label {
+  background-image: none;
+  min-width: 0;
+  padding: 0 8px 0 0;
+  color: @blue;
+}
+/* tighter spacing so the right side stays clear of the playing island */
+#cpu, #memory, #custom-gpu, #battery, #custom-updates,
+#sound label, #system label, #bluetooth.connected label { padding-left: 23px; padding-right: 5px; background-position: 4px 50%; }
+#backlight, #idle_inhibitor, #ai label, #wifi label,
+#bluetooth.on label, #bluetooth.off label, #bluetooth.missing label { padding: 0 6px; }
+
+
+/* ---------------- Tailscale (cffi/tailscale, scripts/tailscale.py): icon only, like Wi-Fi ---------------- */
+#tailscale { margin: 3px 0; box-shadow: inset 0 0 0 0 alpha(@blue, 0);
+  transition: box-shadow 260ms cubic-bezier(.2, .9, .3, 1.2); }
+#tailscale:hover { box-shadow: inset 0 -26px 0 0 alpha(@blue, 0.22), inset 0 -3px 0 0 @blue; }
+#tailscale label {
+  color: transparent; min-height: 26px; min-width: 18px; padding: 0 6px;
+  background-repeat: no-repeat; background-size: 17px 17px; background-position: 50% 50%;
+  background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/ts-off.svg");
+  transition: background-size 220ms cubic-bezier(.3, 1.8, .5, 1);
+}
+#tailscale:hover label { background-size: 19px 19px; }
+#tailscale.on label    { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/ts-on.svg"); }
+#tailscale.exit label  { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/ts-exit.svg"); }
+#tailscale.login label { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/ts-login.svg"); }
+
+/* stay-awake cup: hidden while off (the usual state), shows while on. While hidden, turn
+   stay-awake on from the Control Center tile (same effect: hypridle honours both) */
+#idle_inhibitor.deactivated {
+  min-width: 0; padding: 0; margin: 0; background-size: 0 0; font-size: 0;
+  transition: background-size 200ms ease, padding 200ms ease;
+}
+
+/* battery icon-only (no number) while it's fine: centre the icon like the other icon buttons */
+#battery:not(.charging):not(.plugged):not(.warning):not(.critical) {
+  padding: 0 6px; min-width: 18px; background-position: 50% 50%; background-size: 21px 21px;
+}
+
+/* ON AIR: mic / screen share / camera in use (scripts/privacy.py) */
+#custom-privacy.active {
+  font-family: "Bangers", "JetBrainsMono Nerd Font"; font-size: 15px; letter-spacing: 1px;
+  color: @paper; background-color: @crimson; padding: 0 10px; margin: 5px 4px;
+  box-shadow: 3px 3px 0 0 @ink, inset 0 0 0 2px @ink;
+  animation: hot-pulse 1.4s ease-in-out infinite;
+}
+
+/* clipboard history button (custom/clipboard): icon only */
+#custom-clipboard {
+  color: transparent; min-width: 18px; padding: 0 6px; margin: 3px 0;
+  background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/clipboard.svg");
+  background-repeat: no-repeat; background-size: 17px 17px; background-position: 50% 50%;
+  transition: background-size 220ms cubic-bezier(.3, 1.8, .5, 1), box-shadow 260ms ease;
+}
+#custom-clipboard.empty { opacity: 0.5; }
+#custom-clipboard:hover, box:hover > #custom-clipboard {
+  background-size: 20px 20px; box-shadow: inset 0 -26px 0 0 alpha(@blue, 0.22), inset 0 -3px 0 0 @blue;
+}
+
+/* battery v2: 5-cell icons, level picked by state (good 5 · high 4 · half 3 · mid 2 · warning 1 · critical !) */
+#battery.high { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bat-high.svg"); }
+#battery.mid { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bat-mid.svg"); }
+#battery.charging.good { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bat-charging-5.svg"); }
+#battery.charging.high { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bat-charging-4.svg"); }
+#battery.charging.half { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bat-charging-3.svg"); }
+#battery.charging.mid { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bat-charging-2.svg"); }
+#battery.charging.warning, #battery.charging.critical { background-image: url("file:///home/dog/.config/hypr/waybar/assets/punk/icons/bat-charging-1.svg"); }
+#battery { background-size: 21px 21px; }
+#battery:hover, #battery:not(.charging):not(.plugged):not(.warning):not(.critical):hover { background-size: 24px 24px; }

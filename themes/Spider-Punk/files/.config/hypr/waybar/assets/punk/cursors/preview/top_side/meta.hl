@@ -1,0 +1,7 @@
+resize_algorithm = bilinear
+hotspot_x = 0.500
+hotspot_y = 0.102
+
+define_size = 0, top_side-00.svg
+
+define_override = n-resize

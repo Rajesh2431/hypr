@@ -1,0 +1,9 @@
+/* config-keybinds.rasi — Island / Spotlight style (generated). Original KoolDots version:
+ * ~/.config/hypr/rofi-backup-before-island.tar.gz */
+@import "~/.config/hypr/rofi/config.rasi"
+
+element-icon { size: 0px; }
+element { children: [ "element-text" ]; }
+window { width: 900px; }
+listview { lines: 14; }
+entry { placeholder: "Search keybinds"; }

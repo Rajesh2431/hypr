@@ -1,0 +1,7 @@
+resize_algorithm = bilinear
+hotspot_x = 0.102
+hotspot_y = 0.898
+
+define_size = 0, bottom_left_corner-00.svg
+
+define_override = sw-resize

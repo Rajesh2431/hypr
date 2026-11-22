@@ -1,0 +1,179 @@
+/* ==================================================================
+ *  OBSIDIAN GLASS — floating translucent islands, calm developer look
+ *  Layout : configs/TOP-Obsidian-Glass     Modules: ModulesGlass (+ ModulesClean)
+ *  Hyprland blurs the "waybar" layer (UserConfigs/user_layer_rules.lua), so the
+ *  island backgrounds below read as frosted glass.
+ *  Waybar 0.16 hover: custom modules get the hover flag on a parent box,
+ *  so #custom-x:hover rules also need `box:hover > #custom-x`.
+ * ================================================================== */
+@define-color bg       #101116;
+@define-color surface  #191B23;
+@define-color elevated #222630;
+@define-color text     #E6E8F0;
+@define-color subtext  #9CA4B5;
+@define-color muted    #687184;
+@define-color accent   #78B9E7;
+@define-color cyan     #7ED6DE;
+@define-color border   #394251;
+@define-color red      #E06C75;
+@define-color yellow   #E5C07B;
+@define-color green    #98C379;
+
+* {
+  font-family: "Noto Sans", "JetBrainsMono Nerd Font";
+  font-weight: 500;
+  font-size: 13px;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+window#waybar { background: transparent; color: @text; }
+
+/* ---------------- islands ---------------- */
+#gleft, #gclock, #ghud, #gright, #gright2 {
+  background-color: alpha(@bg, 0.72);
+  border: 1px solid alpha(@border, 0.85);
+  border-radius: 12px;
+  padding: 0 6px;
+  margin: 0 3px;
+}
+#gleft { margin-left: 0; }
+#gright, #gright2 { margin-right: 0; }
+
+/* ---------------- every item ---------------- */
+#window, #submap, #clock, #custom-weather2, #image, #tray, #cpu, #memory, #custom-gpu, #backlight, #battery,
+#custom-power, #custom-updates, #custom-privacy, #custom-notify {
+  padding: 0 8px;
+  margin: 4px 1px;
+  color: @text;
+  border-radius: 8px;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+#apps, #wifi, #tailscale, #bluetooth, #system, #sound, #ai {
+  margin: 4px 1px;
+  border-radius: 8px;
+  transition: background-color 180ms ease;
+}
+#apps label, #wifi label, #tailscale label, #bluetooth label, #system label, #sound label, #ai label {
+  color: @text;
+  padding: 0 8px;
+  min-height: 26px;
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 14px;
+}
+#apps:hover, #wifi:hover, #tailscale:hover, #bluetooth:hover, #system:hover, #sound:hover, #ai:hover,
+#clock:hover, #cpu:hover, #memory:hover, #image:hover,
+#custom-gpu:hover, box:hover > #custom-gpu, #backlight:hover, #battery:hover, #tray:hover,
+#custom-weather2:hover, box:hover > #custom-weather2,
+#custom-notify:hover, box:hover > #custom-notify,
+#custom-updates:hover, box:hover > #custom-updates,
+#custom-power:hover, box:hover > #custom-power {
+  background-color: alpha(@text, 0.07);
+}
+
+/* ---------------- left ---------------- */
+#apps label { color: @accent; font-size: 16px; }
+#workspaces { margin: 4px 2px; }
+#workspaces button {
+  padding: 0 8px;
+  margin: 0 1px;
+  min-height: 26px;
+  color: @muted;
+  background: transparent;
+  border-radius: 8px;
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 13px;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+#workspaces button label { color: inherit; }
+#workspaces button:hover { background-color: alpha(@text, 0.07); color: @text; }
+#workspaces button.active {
+  background-color: alpha(@accent, 0.20);
+  color: @text;
+  box-shadow: inset 0 -2px 0 0 @accent;
+}
+#workspaces button.active label { color: @text; }
+#workspaces button.active.empty, #workspaces button.active.empty label { color: @text; }
+#workspaces button.empty, #workspaces button.empty label { color: alpha(@muted, 0.7); }
+#workspaces button.urgent { background-color: alpha(@red, 0.25); color: @text; }
+
+#window { color: @subtext; }
+#window label { color: @subtext; }
+window#waybar.empty #window { padding: 0; margin: 0; }
+#submap { color: @yellow; }
+
+#clock { font-weight: 600; color: @text; }
+#custom-weather2 { color: @subtext; }
+#image { padding: 0 4px; }
+
+/* ---------------- HUD ---------------- */
+#cpu, #memory, #custom-gpu { color: @subtext; font-family: "JetBrainsMono Nerd Font"; font-size: 12.5px; }
+#cpu.warning, #memory.warning, #custom-gpu.warning { color: @yellow; }
+#cpu.critical, #memory.critical, #custom-gpu.critical { color: @red; }
+#custom-gpu.sleep { color: @muted; }
+#system.critical label { color: @red; }
+
+/* ---------------- right ---------------- */
+#tray { padding: 0 6px; }
+#tray > .passive { -gtk-icon-effect: dim; }
+#tray > .needs-attention { -gtk-icon-effect: highlight; background-color: alpha(@red, 0.25); }
+
+#wifi.off label, #wifi.disconnected label { color: @muted; }
+#wifi #hover, #ai #hover { background: none; color: @subtext; }
+#tailscale.off label, #tailscale.missing label, #tailscale.login label { color: @muted; }
+#tailscale.on label, #tailscale.exit label { color: @cyan; }
+#bluetooth.off label, #bluetooth.missing label { color: @muted; }
+#bluetooth.connected label { color: @accent; }
+#sound.muted label { color: @muted; }
+
+#backlight { font-family: "JetBrainsMono Nerd Font"; font-size: 14px; }
+#battery { font-family: "JetBrainsMono Nerd Font"; font-size: 12.5px; color: @text; }
+#battery.charging, #battery.plugged { color: @green; }
+#battery.warning:not(.charging) { color: @yellow; }
+#battery.critical:not(.charging) { color: @red; background-color: alpha(@red, 0.15); }
+
+#ai.warn label { color: @yellow; }
+#ai.crit label { color: @red; }
+#ai.idle label { color: @muted; }
+
+#custom-privacy { color: @red; }
+#custom-notify { font-family: "JetBrainsMono Nerd Font"; font-size: 14px; }
+#custom-notify.unread { color: @accent; }
+#custom-notify.focus { color: @cyan; }
+#custom-updates { color: @subtext; font-family: "JetBrainsMono Nerd Font"; }
+#notifydrawer .drawer-child { margin-left: 2px; }
+
+#custom-power {
+  color: @red;
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 14px;
+  padding: 0 10px 0 8px;
+}
+#custom-power:hover, box:hover > #custom-power { background-color: alpha(@red, 0.18); }
+
+/* ---------------- tooltips + menus ---------------- */
+tooltip {
+  background-color: alpha(@surface, 0.96);
+  border: 1px solid @border;
+  border-radius: 10px;
+}
+tooltip label { color: @text; padding: 2px 4px; font-family: "Noto Sans"; font-weight: 400; }
+window.popup { background: transparent; }
+menu, .menu {
+  background-color: alpha(@surface, 0.97);
+  border: 1px solid @border;
+  border-radius: 12px;
+  padding: 6px;
+}
+menu menuitem { border-radius: 8px; padding: 5px 10px; min-height: 22px; }
+menu menuitem label { color: @text; font-weight: 400; }
+menu menuitem:hover { background-color: alpha(@accent, 0.20); }
+menu menuitem:active { background-color: alpha(@accent, 0.30); }
+menu menuitem:disabled label { color: @muted; }
+menu menuitem arrow { color: @muted; }
+menu menuitem check { border: 1px solid @border; border-radius: 4px; background: @bg; }
+menu menuitem check:checked { background: @accent; border-color: @accent; }
+menu separator { background-color: alpha(@border, 0.8); min-height: 1px; margin: 4px 6px; }

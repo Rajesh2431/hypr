@@ -1,0 +1,99 @@
+/* ==================================================================
+ *  SPIDER-PUNK — GTK 4 / libadwaita layer
+ *  libadwaita ignores the GTK theme name and reads this file instead.
+ *  Palette = ~/.config/hypr/waybar/style/punk/tokens.css. Delete this file to revert.
+ * ================================================================== */
+
+/* libadwaita ≥ 1.6 reads CSS variables… */
+:root {
+  --accent-color: #FF1744;
+  --accent-bg-color: #FF1744;
+  --accent-fg-color: #F5F0E8;
+  --destructive-color: #FFD43B;
+  --destructive-bg-color: #FFD43B;
+  --destructive-fg-color: #050306;
+  --success-color: #00B8FF;
+  --success-bg-color: #00B8FF;
+  --success-fg-color: #050306;
+  --warning-color: #FFD43B;
+  --warning-bg-color: #FFD43B;
+  --warning-fg-color: #050306;
+  --error-color: #FF1744;
+  --error-bg-color: #FF1744;
+  --error-fg-color: #F5F0E8;
+  --window-bg-color: #151117;
+  --window-fg-color: #F5F0E8;
+  --view-bg-color: #0B090D;
+  --view-fg-color: #F5F0E8;
+  --headerbar-bg-color: #0B090D;
+  --headerbar-fg-color: #F5F0E8;
+  --headerbar-border-color: #FF1744;
+  --headerbar-backdrop-color: #0B090D;
+  --headerbar-shade-color: #050306;
+  --sidebar-bg-color: #0B090D;
+  --sidebar-fg-color: #F5F0E8;
+  --sidebar-backdrop-color: #0B090D;
+  --sidebar-border-color: #050306;
+  --secondary-sidebar-bg-color: #151117;
+  --card-bg-color: #1E151C;
+  --card-fg-color: #F5F0E8;
+  --dialog-bg-color: #151117;
+  --dialog-fg-color: #F5F0E8;
+  --popover-bg-color: #151117;
+  --popover-fg-color: #F5F0E8;
+  --thumbnail-bg-color: #1E151C;
+  --border-color: #050306;
+  --window-radius: 2px;
+  --border-radius: 0;
+}
+
+/* …older libadwaita and plain GTK 4 read named colours */
+@define-color accent_color #FF1744;
+@define-color accent_bg_color #FF1744;
+@define-color accent_fg_color #F5F0E8;
+@define-color destructive_bg_color #FFD43B;
+@define-color destructive_fg_color #050306;
+@define-color success_color #00B8FF;
+@define-color warning_color #FFD43B;
+@define-color error_color #FF1744;
+@define-color window_bg_color #151117;
+@define-color window_fg_color #F5F0E8;
+@define-color view_bg_color #0B090D;
+@define-color view_fg_color #F5F0E8;
+@define-color headerbar_bg_color #0B090D;
+@define-color headerbar_fg_color #F5F0E8;
+@define-color headerbar_border_color #FF1744;
+@define-color sidebar_bg_color #0B090D;
+@define-color sidebar_fg_color #F5F0E8;
+@define-color card_bg_color #1E151C;
+@define-color card_fg_color #F5F0E8;
+@define-color dialog_bg_color #151117;
+@define-color popover_bg_color #151117;
+@define-color popover_fg_color #F5F0E8;
+
+/* ---------------- comic-panel shapes ---------------- */
+headerbar { border-bottom: 3px solid #FF1744; box-shadow: inset 0 -1px 0 #050306; }
+button:not(.flat):not(.circular):not(.pill), entry, spinbutton, dropdown > button, .card, list.boxed-list, popover > contents, menubutton > button:not(.flat) {
+  border-radius: 0;
+}
+button:not(.flat):not(.circular) {
+  box-shadow: 3px 3px 0 0 #050306;
+  border: 2px solid #050306;
+}
+button:not(.flat):not(.circular):hover { border-color: #00B8FF; }
+button:not(.flat):active, button:not(.flat):checked { box-shadow: 1px 1px 0 0 #00B8FF; }
+button.suggested-action { box-shadow: 3px 3px 0 0 #00B8FF; }
+button.destructive-action { box-shadow: 3px 3px 0 0 #FF1744; }
+entry:focus-within { box-shadow: 3px 3px 0 0 #00B8FF; outline-color: #FF1744; }
+.card, list.boxed-list { border: 2px solid #050306; box-shadow: 4px 4px 0 0 rgba(255, 23, 68, 0.55); }
+popover > contents { border: 2px solid #050306; box-shadow: 4px 4px 0 0 #FF1744; }
+switch { border-radius: 0; border: 2px solid #050306; }
+switch > slider { border-radius: 0; box-shadow: 2px 2px 0 0 #050306; }
+switch:checked > slider { background-color: #FFD43B; }
+check { border-radius: 0; }
+scale > trough, progressbar > trough, levelbar > trough { border-radius: 0; }
+scale > trough > highlight, progressbar > trough > progress { border-radius: 0; background-color: #FF1744; }
+scale > trough > slider { border-radius: 0; background-color: #FFD43B; border: 2px solid #050306; }
+scrollbar > range > trough > slider { border-radius: 0; }
+selection, *:selected { background-color: rgba(255, 23, 68, 0.85); color: #F5F0E8; }
+tooltip { border-radius: 0; border: 2px solid #050306; box-shadow: 3px 3px 0 0 #FF1744; }

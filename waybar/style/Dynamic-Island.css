@@ -1,0 +1,180 @@
+/* ---- Dynamic Island ----
+ * Matches the Quickshell Dynamic Island (~/.config/quickshell/island):
+ * solid black pills (36 px, fully rounded), hairline light edge, white text,
+ * grey secondary text, iOS system colours for status. Tooltips and the
+ * drop-down menus (Wi-Fi, Bluetooth, Sound, System, Arch) use the same look.
+ * Pair with layout: configs/TOP-Clean-Islands
+ */
+/* Waybar 0.16 hover: custom modules get the hover flag on a parent box (icon support),
+ * so every #custom-x:hover rule also matches as `box:hover > #custom-x`. */
+@define-color island   #000000;
+@define-color edge     rgba(255, 255, 255, 0.07);
+@define-color text     #f2f2f2;
+@define-color subtext  #9a9a9a;
+@define-color faint    rgba(242, 242, 242, 0.38);
+@define-color hover    rgba(255, 255, 255, 0.09);
+@define-color press    rgba(255, 255, 255, 0.16);
+@define-color green    #30d158;
+@define-color yellow   #ffd60a;
+@define-color red      #ff453a;
+@define-color orange   #ff9f0a;
+@define-color blue     #0a84ff;
+@define-color spotify  #1DB954;
+
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-weight: 600;
+  font-size: 13px;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+window#waybar { background: transparent; color: @text; }
+
+/* ---------------- islands: same shape as the Dynamic Island ---------------- */
+#left, #time, #media, #right, #right2 {
+  background-color: @island;
+  border: 1px solid @edge;
+  border-radius: 18px;
+  padding: 0 5px;
+}
+#left  { margin-right: 8px; }
+#right, #right2 { margin-left: 8px; }
+
+/* every item: identical pill height (26 px) and hover */
+#custom-menu, #custom-hypr_layout, #window, #submap,
+#clock, #custom-weather2, #image,
+#tray, #network, #temperature, #cpu, #power-profiles-daemon, #memory, #disk,
+#pulseaudio, #backlight, #battery, #custom-nightlight, #idle_inhibitor,
+#custom-swaync, #custom-power, #custom-updates, #custom-privacy {
+  padding: 0 10px;
+  margin: 4px 1px;
+  border-radius: 14px;
+  color: @text;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+#clock:hover, #custom-weather2:hover, box:hover > #custom-weather2, #backlight:hover, #battery:hover,
+#custom-nightlight:hover, box:hover > #custom-nightlight, #idle_inhibitor:hover, #custom-swaync:hover, box:hover > #custom-swaync,
+#custom-power:hover, box:hover > #custom-power, #custom-updates:hover, box:hover > #custom-updates {
+  background-color: @hover;
+}
+
+/* menu-widget buttons (Arch, Wi-Fi, Bluetooth, System, Sound): event boxes, pad the label */
+#apps, #wifi, #bluetooth, #system, #sound {
+  margin: 4px 1px;
+  border-radius: 14px;
+  transition: background-color 180ms ease;
+}
+#apps label, #wifi label, #bluetooth label, #system label, #sound label {
+  color: @text; padding: 0 10px; min-height: 26px;
+}
+#apps:hover, #wifi:hover, #bluetooth:hover, #system:hover, #sound:hover { background-color: @hover; }
+
+/* ---------------- left ---------------- */
+#apps label { font-size: 16px; padding: 0 11px 0 10px; }
+#submap { background-color: @text; color: #000; }
+
+#workspaces { margin: 0 3px; }
+#workspaces button {
+  padding: 0 8px;
+  margin: 4px 1px;
+  min-height: 26px;
+  border-radius: 14px;
+  color: @subtext;
+  background: transparent;
+  transition: all 220ms ease;
+}
+#workspaces button label { color: inherit; }
+#workspaces button:hover { background-color: @hover; color: @text; }
+#workspaces button.active { background-color: @text; color: #000; padding: 0 14px; }
+#workspaces button.active label { color: #000; }
+#workspaces button.urgent { background-color: @red; color: #000; }
+#workspaces button.empty { color: @faint; }
+#workspaces button.empty label { color: @faint; }
+
+/* ---------------- time island ---------------- */
+#clock { font-weight: 700; font-size: 14px; }
+#custom-weather2 { color: @subtext; }
+#image { padding: 0 4px; }
+
+/* (old waybar Spotify island — unused now that the Dynamic Island exists) */
+#spotify-cffi { margin: 4px 2px; padding: 0 8px 0 4px; border-radius: 14px; background: transparent; }
+#custom-cava_mviz { color: @spotify; }
+
+/* ---------------- right ---------------- */
+#tray { padding: 0 8px; }
+#tray > .passive { -gtk-icon-effect: dim; }
+#tray > .needs-attention { -gtk-icon-effect: highlight; background-color: alpha(@red, 0.3); }
+
+#wifi label { font-size: 15px; }
+#wifi.off label, #wifi.disconnected label { color: @faint; }
+#bluetooth.connected label { color: @blue; }
+#bluetooth.off label, #bluetooth.missing label { color: @faint; }
+#system.critical { background-color: @red; }
+#system.critical label { color: #000; }
+#sound.muted label { color: @faint; }
+
+#battery.charging, #battery.plugged { color: @green; }
+#battery.warning:not(.charging) { color: @yellow; }
+#battery.critical:not(.charging) { background-color: @red; color: #000; }
+
+#custom-nightlight, #idle_inhibitor { font-size: 15px; padding: 0 11px; }
+#custom-nightlight.on { color: @orange; background-color: alpha(@orange, 0.16); }
+#idle_inhibitor.activated { color: @yellow; background-color: alpha(@yellow, 0.14); }
+#custom-updates { color: @text; }
+#custom-privacy { color: @orange; background-color: alpha(@orange, 0.18); }
+#custom-swaync { padding: 0 11px; }
+#custom-power { color: @red; padding: 0 12px; }
+
+/* ---------------- tooltips ---------------- */
+tooltip {
+  background-color: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 16px;
+}
+tooltip label { color: @text; padding: 6px 8px; font-weight: 500; }
+
+/* ---------------- drop-down menus (GTK, opened from the bar) ---------------- */
+window.popup { background: transparent; }
+menu, .menu {
+  background-color: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 16px;
+  padding: 6px;
+}
+menu menuitem {
+  min-height: 28px;
+  padding: 2px 12px;
+  border-radius: 10px;
+  color: @text;
+}
+menu menuitem label { color: @text; font-weight: 500; }
+menu menuitem:hover { background-color: @hover; }
+menu menuitem:active { background-color: @press; }
+menu menuitem:disabled label { color: @subtext; }
+menu menuitem arrow { color: @subtext; min-width: 12px; }
+menu menuitem check { color: @text; background: transparent; border: 1px solid rgba(255,255,255,0.25); border-radius: 5px; min-width: 14px; min-height: 14px; }
+menu menuitem check:checked { background-color: @text; color: #000; border-color: @text; }
+menu separator { background-color: rgba(255, 255, 255, 0.08); min-height: 1px; margin: 5px 8px; }
+
+/* active + empty workspace (e.g. a fresh workspace on a new monitor): keep black text on the white pill */
+#workspaces button.active.empty, #workspaces button.active.empty label { color: #000; }
+
+/* island Control Center bell (custom/notify) */
+#custom-notify { padding: 0 11px; margin: 4px 1px; border-radius: 14px; color: @text; transition: background-color 180ms ease; }
+#custom-notify:hover, box:hover > #custom-notify { background-color: @hover; }
+#custom-notify.unread { color: @text; }
+#custom-notify.empty { color: @subtext; }
+#custom-notify.focus { color: #bf5af2; background-color: alpha(#bf5af2, 0.16); }
+
+/* AI usage (cffi/ai): the % is coloured in the markup (green / yellow / red) */
+#ai { margin: 4px 1px; border-radius: 14px; transition: background-color 180ms ease; }
+#ai label { color: #f2f2f2; padding: 0 10px; min-height: 26px; }
+#ai:hover { background-color: rgba(255, 255, 255, 0.09); }
+
+/* AI hover text + the drawer child (updates) next to the bell */
+#ai #hover { padding: 0 10px 0 2px; margin-left: 0; }   /* small gap after the (wide) robot glyph */
+#notifydrawer .drawer-child { margin-right: 0; }

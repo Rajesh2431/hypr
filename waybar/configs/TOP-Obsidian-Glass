@@ -1,0 +1,59 @@
+/* ---- Obsidian Glass (top) — floating translucent islands, calm developer look ----
+ * left: apps · workspaces · window title | clock · weather     centre: Dynamic Island overlays it
+ * right: CPU · RAM · system ▾ | privacy · tray · wifi ▾ · tailscale ▾ · bluetooth ▾ · sound ▾ · brightness · battery · AI · bell · power
+ * Modules: ../ModulesGlass (first) + ../ModulesClean   Style: style/Obsidian-Glass.css   Switch with Super+Alt+T (UserScripts/Styles.sh)
+ */
+[
+{
+  "name": "main",
+  "output": "eDP-1",
+  "include": [
+    "$HOME/.config/hypr/waybar/ModulesGlass",
+    "$HOME/.config/hypr/waybar/ModulesClean",
+    "$HOME/.config/hypr/waybar/Modules",
+    "$HOME/.config/hypr/waybar/ModulesWorkspaces",
+    "$HOME/.config/hypr/waybar/ModulesCustom",
+    "$HOME/.config/hypr/waybar/ModulesGroups",
+    "$HOME/.config/hypr/waybar/UserModules"
+  ],
+  "layer": "top",
+  "exclusive": true,
+  "passthrough": false,
+  "position": "top",
+  "spacing": 0,
+  "fixed-center": true,
+  "ipc": true,
+  "margin-top": 6,
+  "margin-left": 8,
+  "margin-right": 8,
+  "modules-left":   [ "group/gleft", "group/gclock" ],
+  "modules-center": [ ],
+  "modules-right":  [ "group/ghud", "group/gright" ]
+},
+{
+  "name": "secondary",
+  "output": [ "!eDP-1", "*" ],
+  "include": [
+    "$HOME/.config/hypr/waybar/ModulesGlass",
+    "$HOME/.config/hypr/waybar/ModulesClean",
+    "$HOME/.config/hypr/waybar/Modules",
+    "$HOME/.config/hypr/waybar/ModulesWorkspaces",
+    "$HOME/.config/hypr/waybar/ModulesCustom",
+    "$HOME/.config/hypr/waybar/ModulesGroups",
+    "$HOME/.config/hypr/waybar/UserModules"
+  ],
+  "layer": "top",
+  "exclusive": true,
+  "passthrough": false,
+  "position": "top",
+  "spacing": 0,
+  "fixed-center": true,
+  "ipc": true,
+  "margin-top": 6,
+  "margin-left": 8,
+  "margin-right": 8,
+  "modules-left":   [ "group/gleft", "group/gclock" ],
+  "modules-center": [ ],
+  "modules-right":  [ "group/gright2" ]
+}
+]

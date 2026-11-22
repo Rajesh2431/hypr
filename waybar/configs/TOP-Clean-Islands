@@ -1,0 +1,63 @@
+/* ---- Clean Islands (top) — one main bar + lighter bars on other monitors ----
+ * main (laptop screen eDP-1):
+ *   left   : Arch menu ▾ · workspaces (this monitor's) | clock · weather · photo
+ *   center : empty — the Dynamic Island (~/.config/quickshell/island) overlays it
+ *   right  : privacy · tray · wifi ▾ · bluetooth ▾ · system ▾ · sound ▾ · brightness · battery ·
+ *            night light · stay-awake · updates · notifications · power
+ * other monitors: Arch menu · workspaces (that monitor's) | clock · weather   …   sound · battery · notifications · power
+ *   (no tray: system-tray icons live on the main bar only)
+ * Module definitions: ../ModulesClean   Style: style/Dynamic-Island.css
+ * Previous single-bar version: TOP-Clean-Islands.bak-monitors
+ */
+[
+{
+  "name": "main",
+  "output": "eDP-1",
+  "include": [
+    "$HOME/.config/hypr/waybar/ModulesClean",
+    "$HOME/.config/hypr/waybar/Modules",
+    "$HOME/.config/hypr/waybar/ModulesWorkspaces",
+    "$HOME/.config/hypr/waybar/ModulesCustom",
+    "$HOME/.config/hypr/waybar/ModulesGroups",
+    "$HOME/.config/hypr/waybar/UserModules"
+  ],
+  "layer": "top",
+  "exclusive": true,
+  "passthrough": false,
+  "position": "top",
+  "spacing": 0,
+  "fixed-center": true,
+  "ipc": true,
+  "margin-top": 6,
+  "margin-left": 10,
+  "margin-right": 10,
+  "modules-left":   [ "group/left", "group/time" ],
+  "modules-center": [ ],
+  "modules-right":  [ "group/right" ]
+},
+{
+  "name": "secondary",
+  "output": [ "!eDP-1", "*" ],
+  "include": [
+    "$HOME/.config/hypr/waybar/ModulesClean",
+    "$HOME/.config/hypr/waybar/Modules",
+    "$HOME/.config/hypr/waybar/ModulesWorkspaces",
+    "$HOME/.config/hypr/waybar/ModulesCustom",
+    "$HOME/.config/hypr/waybar/ModulesGroups",
+    "$HOME/.config/hypr/waybar/UserModules"
+  ],
+  "layer": "top",
+  "exclusive": true,
+  "passthrough": false,
+  "position": "top",
+  "spacing": 0,
+  "fixed-center": true,
+  "ipc": true,
+  "margin-top": 6,
+  "margin-left": 10,
+  "margin-right": 10,
+  "modules-left":   [ "group/left", "group/time" ],
+  "modules-center": [ ],
+  "modules-right":  [ "group/right2" ]
+}
+]

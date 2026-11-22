@@ -1,0 +1,32 @@
+/* ---- Dynamic Island rofi theme ----
+ * KooL style 4 layout, recoloured to match the Quickshell Dynamic Island /
+ * waybar style Dynamic-Island.css: black, white selection, round corners. */
+@import "~/.config/hypr/rofi/themes/KooL_style-4.rasi"
+
+* {
+    background:      #000000;
+    background-alt:  #161618;
+    foreground:      #f2f2f2;
+    color0:          #161618;
+    selected:        #f2f2f2;
+    active:          #9a9a9a;
+    urgent:          #ff453a;
+    border-color:    rgba(255, 255, 255, 8%);
+    handle-color:    #f2f2f2;
+    background-color: #000000;
+    foreground-color: #f2f2f2;
+    alternate-background: #161618;
+}
+window        { border: 1px solid; border-radius: 26px; border-color: rgba(255, 255, 255, 8%); background-color: #000000; }
+mainbox       { padding: 18px; }
+inputbar      { border-radius: 16px; background-color: #161618; }
+textbox       { border-radius: 14px; background-color: #161618; }
+mode-switcher { border-radius: 14px; background-color: #161618; margin: 0px 10px 0px 0px; }
+button        { border-radius: 12px; }
+button selected  { border: 0px; border-radius: 12px; background-color: #f2f2f2; text-color: #000000; }
+element       { border-radius: 14px; }
+element selected.normal, element selected.active, element selected.urgent { background-color: #f2f2f2; text-color: #000000; }
+element normal.active    { text-color: #f2f2f2; }
+element alternate.active { background-color: transparent; text-color: #f2f2f2; }
+scrollbar     { handle-color: #f2f2f2; border-radius: 6px; }
+error-message { border-radius: 16px; border: 1px solid; border-color: rgba(255, 69, 58, 60%); }

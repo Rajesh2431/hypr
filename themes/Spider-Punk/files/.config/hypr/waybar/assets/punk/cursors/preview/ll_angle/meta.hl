@@ -1,0 +1,6 @@
+resize_algorithm = bilinear
+hotspot_x = 0.102
+hotspot_y = 0.898
+
+define_size = 0, ll_angle-00.svg
+

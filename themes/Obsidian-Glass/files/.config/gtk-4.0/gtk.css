@@ -1,0 +1,107 @@
+/* ==================================================================
+ *  OBSIDIAN-GLASS — GTK 4 / libadwaita layer
+ *  libadwaita ignores the GTK theme name and reads this file instead.
+ *  Palette: bg #101116, surface #191B23, elevated #222630, accent #78B9E7 / #7ED6DE.
+ *  Delete this file to revert to stock libadwaita.
+ * ================================================================== */
+
+/* libadwaita ≥ 1.6 reads CSS variables… */
+:root {
+  --accent-color: #78B9E7;
+  --accent-bg-color: #78B9E7;
+  --accent-fg-color: #101116;
+  --destructive-color: #E06C75;
+  --destructive-bg-color: #E06C75;
+  --destructive-fg-color: #101116;
+  --success-color: #98C379;
+  --success-bg-color: #98C379;
+  --success-fg-color: #101116;
+  --warning-color: #E5C07B;
+  --warning-bg-color: #E5C07B;
+  --warning-fg-color: #101116;
+  --error-color: #E06C75;
+  --error-bg-color: #E06C75;
+  --error-fg-color: #101116;
+  --window-bg-color: #101116;
+  --window-fg-color: #E6E8F0;
+  --view-bg-color: #191B23;
+  --view-fg-color: #E6E8F0;
+  --headerbar-bg-color: #101116;
+  --headerbar-fg-color: #E6E8F0;
+  --headerbar-border-color: #394251;
+  --headerbar-backdrop-color: #101116;
+  --headerbar-shade-color: #394251;
+  --sidebar-bg-color: #191B23;
+  --sidebar-fg-color: #E6E8F0;
+  --sidebar-backdrop-color: #191B23;
+  --sidebar-border-color: #394251;
+  --secondary-sidebar-bg-color: #191B23;
+  --card-bg-color: #191B23;
+  --card-fg-color: #E6E8F0;
+  --dialog-bg-color: #101116;
+  --dialog-fg-color: #E6E8F0;
+  --popover-bg-color: rgba(34, 38, 48, 0.96);
+  --popover-fg-color: #E6E8F0;
+  --thumbnail-bg-color: #222630;
+  --border-color: #394251;
+  --window-radius: 12px;
+  --border-radius: 8px;
+}
+
+/* …older libadwaita and plain GTK 4 read named colours */
+@define-color accent_color #78B9E7;
+@define-color accent_bg_color #78B9E7;
+@define-color accent_fg_color #101116;
+@define-color destructive_bg_color #E06C75;
+@define-color destructive_fg_color #101116;
+@define-color success_color #98C379;
+@define-color warning_color #E5C07B;
+@define-color error_color #E06C75;
+@define-color window_bg_color #101116;
+@define-color window_fg_color #E6E8F0;
+@define-color view_bg_color #191B23;
+@define-color view_fg_color #E6E8F0;
+@define-color headerbar_bg_color #101116;
+@define-color headerbar_fg_color #E6E8F0;
+@define-color headerbar_border_color #394251;
+@define-color sidebar_bg_color #191B23;
+@define-color sidebar_fg_color #E6E8F0;
+@define-color card_bg_color #191B23;
+@define-color card_fg_color #E6E8F0;
+@define-color dialog_bg_color #101116;
+@define-color popover_bg_color rgba(34, 38, 48, 0.96);
+@define-color popover_fg_color #E6E8F0;
+
+/* ---------------- calm, rounded shapes ---------------- */
+headerbar { border-bottom: 1px solid #394251; box-shadow: none; background-image: none; }
+button:not(.flat):not(.circular):not(.pill), entry, spinbutton, dropdown > button, menubutton > button:not(.flat) {
+  border-radius: 8px;
+}
+.card, list.boxed-list { border-radius: 12px; }
+popover > contents, popover.menu > contents, dialog, window.dialog, .dialog-sheet, messagedialog, window.messagedialog {
+  border-radius: 12px;
+}
+button:not(.flat):not(.circular) {
+  box-shadow: none;
+  border: 1px solid #394251;
+}
+button:not(.flat):not(.circular):hover { border-color: #4A5466; }
+button:not(.flat):active, button:not(.flat):checked { box-shadow: none; border-color: rgba(120, 185, 231, 0.6); }
+button.suggested-action, button.destructive-action { box-shadow: none; border-color: transparent; }
+entry { border: 1px solid #394251; box-shadow: none; caret-color: #7ED6DE; }
+entry:focus-within { border-color: #78B9E7; outline-color: rgba(120, 185, 231, 0.7); }
+.card, list.boxed-list { border: 1px solid #394251; box-shadow: none; }
+popover > contents { border: 1px solid #394251; box-shadow: none; }
+popover > arrow { border-color: #394251; }
+switch { border-radius: 14px; }
+switch > slider { box-shadow: none; }
+check { border-radius: 4px; }
+scale > trough, progressbar > trough, levelbar > trough { border-radius: 6px; }
+scale > trough > highlight, progressbar > trough > progress { border-radius: 6px; background-color: #78B9E7; }
+scale > trough > slider { background-color: #E6E8F0; border: 1px solid #394251; box-shadow: none; }
+scrollbar > range > trough > slider { border-radius: 8px; }
+selection, *:selected { background-color: rgba(120, 185, 231, 0.35); color: #E6E8F0; }
+*:focus-visible { outline-color: rgba(120, 185, 231, 0.7); }
+tooltip { border-radius: 8px; border: 1px solid #394251; box-shadow: none; background-color: rgba(34, 38, 48, 0.97); }
+.navigation-sidebar, placessidebar, .sidebar-pane { background-color: #191B23; }
+.dim-label { color: #9CA4B5; }

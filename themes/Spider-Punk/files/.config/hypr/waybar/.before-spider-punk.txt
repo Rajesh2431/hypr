@@ -1,0 +1,2 @@
+config -> /home/dog/.config/hypr/waybar/configs/TOP-Clean-Islands
+style.css -> /home/dog/.config/hypr/waybar/style/Dynamic-Island.css
