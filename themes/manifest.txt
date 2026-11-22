@@ -43,4 +43,8 @@
 .config/kitty/kitty.conf
 # fastfetch panel in the terminal greeting (link -> spiderpunk.jsonc / obsidian-glass.jsonc)
 .config/fastfetch/style.jsonc
+# shell prompt, ls colours, btop theme (btop.conf uses color_theme = "style": a link to the style's theme)
+.config/starship.toml
+.config/lsd/colors.yaml
+.config/btop/themes/style.theme
 .config/nvim/lua/plugins/desktop-style.lua

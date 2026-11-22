@@ -1,0 +1,290 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# OBSIDIAN GLASS prompt: same layout as the Spider-Punk prompt, rounded pills, glass palette.
+# Per-style file (~/.config/hypr/UserScripts/Styles.sh). Palette mirrors ~/.config/kitty/themes/obsidian-glass.conf
+
+add_newline = true
+scan_timeout = 30
+command_timeout = 600
+follow_symlinks = true
+palette = "obsidian"
+
+format = """
+$username$hostname\
+$directory\
+$git_branch$git_state$git_status\
+$container\
+$python$nodejs$bun$deno$rust$golang$c$cpp$java$kotlin$dart$swift$php$ruby$lua$zig\
+$docker_context$kubernetes$aws$gcloud$azure$terraform$nix_shell$conda
+$character"""
+
+# right side lives on the input line → never wraps in narrow splits,
+# and zsh hides it automatically when the command gets long
+right_format = "$status$cmd_duration$jobs$sudo$battery$time"
+
+continuation_prompt = "[▚ ](fg:faint)[∙ ](fg:magenta)"
+
+[palettes.obsidian]
+ink      = "#101116"
+paper    = "#191b23"
+oxblood  = "#222630"
+crimson  = "#2a3a50"
+red      = "#e06c75"
+red_hi   = "#ef8891"
+blush    = "#f2c6cb"
+magenta  = "#b79ce0"
+violet   = "#a6a1e3"
+cobalt   = "#78b9e7"
+cyan     = "#7ed6de"
+yellow   = "#e5c07b"
+orange   = "#e0a07b"
+acid     = "#98c379"
+text     = "#e6e8f0"
+white    = "#f5f6fa"
+muted    = "#9ca4b5"
+faint    = "#687184"
+
+[palettes.spiderpunk]
+ink      = "#0f0709"
+paper    = "#1c0d12"
+oxblood  = "#3a1520"
+crimson  = "#c8243a"
+red      = "#e0323f"
+red_hi   = "#ff5c66"
+blush    = "#ffc9cd"
+magenta  = "#d63a9c"
+violet   = "#b58cf0"
+cobalt   = "#7d9cff"
+cyan     = "#74d6ef"
+yellow   = "#f2c53d"
+orange   = "#f07a2a"
+acid     = "#cbe35a"
+text     = "#eedfd9"
+white    = "#fff4ee"
+muted    = "#a2939a"
+faint    = "#6e5662"
+
+# ─────────────────────────── identity (SSH / root only) ───────────────────────────
+[username]
+show_always = false
+style_user = "bg:yellow fg:ink bold"
+style_root = "bg:red_hi fg:ink bold"
+format = "[](fg:yellow)[ 󰣀 $user]($style)"
+
+[hostname]
+ssh_only = true
+ssh_symbol = ""
+style = "bg:yellow fg:ink bold"
+format = "[@$hostname ]($style)[](fg:yellow)"
+
+# ─────────────────────────── directory: crimson slab ───────────────────────────
+[directory]
+style = "bg:crimson fg:white bold"
+before_repo_root_style = "bg:crimson fg:blush"
+repo_root_style = "bg:crimson fg:white bold underline"
+read_only = " 󰌾"
+read_only_style = "bg:crimson fg:yellow bold"
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+home_symbol = "~"
+repo_root_format = "[](fg:crimson)[ $before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style)[ ](bg:crimson)[](fg:crimson)"
+format = "[](fg:crimson)[ $path]($style)[$read_only]($read_only_style)[ ](bg:crimson)[](fg:crimson)"
+
+# ─────────────────────────── git: oxblood slab ───────────────────────────
+[git_branch]
+symbol = " "
+style = "bg:oxblood fg:yellow bold"
+truncation_length = 28
+truncation_symbol = "…"
+format = "[](fg:oxblood)[ $symbol$branch]($style)"
+
+[git_state]
+style = "bg:oxblood fg:orange bold"
+format = "[ ▚ $state( $progress_current/$progress_total)]($style)"
+
+[git_status]
+style = "bg:oxblood fg:text"
+format = "([ $all_status$ahead_behind]($style))[ ](bg:oxblood)[](fg:oxblood)"
+conflicted = "[✖$count ](bg:oxblood fg:red_hi bold)"
+ahead = "[⇡$count](bg:oxblood fg:acid)"
+behind = "[⇣$count](bg:oxblood fg:orange)"
+diverged = "[⇡$ahead_count⇣$behind_count](bg:oxblood fg:red_hi)"
+up_to_date = ""
+untracked = "[?$count ](bg:oxblood fg:muted)"
+stashed = "[≡$count ](bg:oxblood fg:cyan)"
+modified = "[!$count ](bg:oxblood fg:yellow)"
+staged = "[+$count ](bg:oxblood fg:acid)"
+renamed = "[»$count ](bg:oxblood fg:cyan)"
+deleted = "[✘$count ](bg:oxblood fg:red_hi)"
+
+# ─────────────────────────── languages: plain ink, only inside projects ───────────────────────────
+[python]
+symbol = " "
+style = "fg:yellow"
+format = '[ $symbol$version( [\($virtualenv\)](fg:magenta))]($style)'
+[nodejs]
+symbol = " "
+style = "fg:acid"
+format = "[ $symbol$version]($style)"
+[bun]
+symbol = "󰳑 "
+style = "fg:text"
+format = "[ $symbol$version]($style)"
+[deno]
+symbol = " "
+style = "fg:acid"
+format = "[ $symbol$version]($style)"
+[rust]
+symbol = " "
+style = "fg:orange"
+format = "[ $symbol$version]($style)"
+[golang]
+symbol = " "
+style = "fg:cyan"
+format = "[ $symbol$version]($style)"
+[c]
+symbol = " "
+style = "fg:cobalt"
+format = "[ $symbol$version]($style)"
+[cpp]
+symbol = " "
+style = "fg:cobalt"
+format = "[ $symbol$version]($style)"
+[java]
+symbol = " "
+style = "fg:red"
+format = "[ $symbol$version]($style)"
+[kotlin]
+symbol = " "
+style = "fg:violet"
+format = "[ $symbol$version]($style)"
+[dart]
+symbol = " "
+style = "fg:cyan"
+format = "[ $symbol$version]($style)"
+[swift]
+symbol = " "
+style = "fg:orange"
+format = "[ $symbol$version]($style)"
+[php]
+symbol = " "
+style = "fg:violet"
+format = "[ $symbol$version]($style)"
+[ruby]
+symbol = " "
+style = "fg:red"
+format = "[ $symbol$version]($style)"
+[lua]
+symbol = " "
+style = "fg:cobalt"
+format = "[ $symbol$version]($style)"
+[zig]
+symbol = " "
+style = "fg:orange"
+format = "[ $symbol$version]($style)"
+[conda]
+symbol = "󰌠 "
+style = "fg:acid"
+ignore_base = true
+format = "[ $symbol$environment]($style)"
+
+# ─────────────────────────── infra: only when applicable ───────────────────────────
+[container]
+symbol = "󰏖 "
+style = "fg:orange"
+format = "[ $symbol$name]($style)"
+[docker_context]
+symbol = " "
+style = "fg:cobalt"
+only_with_files = true
+format = "[ $symbol$context]($style)"
+[kubernetes]
+disabled = false
+symbol = "󱃾 "
+style = "fg:cobalt"
+format = '[ $symbol$context( \($namespace\))]($style)'
+detect_files = ["k8s", "kustomization.yaml", "Chart.yaml", "skaffold.yaml"]
+[aws]
+symbol = " "
+style = "fg:orange"
+format = "[ $symbol($profile)( $region)]($style)"
+[gcloud]
+symbol = "󱇶 "
+style = "fg:cobalt"
+format = "[ $symbol$project]($style)"
+detect_env_vars = ["CLOUDSDK_ACTIVE_CONFIG_NAME"]
+[azure]
+symbol = " "
+style = "fg:cobalt"
+format = "[ $symbol$subscription]($style)"
+[terraform]
+symbol = "󱁢 "
+style = "fg:violet"
+format = "[ $symbol$workspace]($style)"
+[nix_shell]
+symbol = " "
+style = "fg:cyan"
+format = "[ $symbol$state]($style)"
+
+# ─────────────────────────── right side ───────────────────────────
+[status]
+disabled = false
+symbol = "✘ "
+not_executable_symbol = " "
+not_found_symbol = "󰍉 "
+sigint_symbol = "󰟾 "
+signal_symbol = "󱐋 "
+map_symbol = true
+pipestatus = true
+style = "bg:red fg:white bold"
+format = "[](fg:red)[ $symbol$status ]($style)[](fg:red) "
+pipestatus_format = "[](fg:red)[ $pipestatus ]($style)[](fg:red) "
+pipestatus_segment_format = "[$status](bg:red fg:white bold)"
+pipestatus_separator = "[│](bg:red fg:blush)"
+
+[cmd_duration]
+min_time = 2_000
+show_milliseconds = false
+style = "fg:yellow bold"
+format = "[󱦟 $duration]($style) "
+show_notifications = false      # kitty already notifies on long commands
+
+[jobs]
+symbol = "󰜎 "
+number_threshold = 1
+style = "fg:cobalt bold"
+format = "[$symbol$number]($style) "
+
+[sudo]
+disabled = false
+symbol = "󰌾 sudo"
+style = "fg:orange bold"
+format = "[$symbol]($style) "
+
+[battery]
+format = "[$symbol$percentage]($style) "
+full_symbol = "󰁹 "
+charging_symbol = "󰂄 "
+discharging_symbol = "󰂃 "
+[[battery.display]]
+threshold = 15
+style = "fg:red_hi bold"
+[[battery.display]]
+threshold = 30
+style = "fg:yellow"
+
+[time]
+disabled = false
+time_format = "%H:%M"
+style = "fg:faint"
+format = "[$time]($style)"
+
+# ─────────────────────────── input line ───────────────────────────
+[character]
+success_symbol = "[▌](fg:crimson)[ ❯](bold fg:red)"
+error_symbol = "[▌](fg:yellow)[ ✗](bold fg:yellow)"
+vimcmd_symbol = "[▌](fg:cobalt)[ ❮](bold fg:cobalt)"
+vimcmd_replace_one_symbol = "[▌](fg:magenta)[ ❮](bold fg:magenta)"
+vimcmd_replace_symbol = "[▌](fg:magenta)[ ❮](bold fg:magenta)"
+vimcmd_visual_symbol = "[▌](fg:yellow)[ ❮](bold fg:yellow)"

@@ -1,0 +1,39 @@
+# OBSIDIAN GLASS colours for lsd (your `ls` alias). Palette: ~/.config/kitty/themes/obsidian-glass.conf
+user: "#b79ce0"
+group: "#a6a1e3"
+permission:
+  read: "#98c379"
+  write: "#e5c07b"
+  exec: "#e06c75"
+  exec-sticky: "#e0a07b"
+  no-access: "#687184"
+  octal: "#7ed6de"
+  acl: "#7ed6de"
+  context: "#7ed6de"
+date:
+  hour-old: "#e6e8f0"
+  day-old: "#9ca4b5"
+  older: "#687184"
+size:
+  none: "#687184"
+  small: "#9ca4b5"
+  medium: "#e5c07b"
+  large: "#e0a07b"
+inode:
+  valid: "#b79ce0"
+  invalid: "#687184"
+links:
+  valid: "#7ed6de"
+  invalid: "#ef8891"
+tree-edge: "#394251"
+git-status:
+  default: "#9ca4b5"
+  unmodified: "#687184"
+  ignored: "#687184"
+  new-in-index: "#98c379"
+  new-in-workdir: "#98c379"
+  typechange: "#e5c07b"
+  deleted: "#e06c75"
+  renamed: "#7ed6de"
+  modified: "#e5c07b"
+  conflicted: "#ef8891"

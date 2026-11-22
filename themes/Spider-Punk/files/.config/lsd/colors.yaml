@@ -1,0 +1,39 @@
+# SPIDER-PUNK colours for lsd (your `ls` alias). Palette: ~/.config/kitty/themes/spiderpunk.conf
+user: "#d63a9c"
+group: "#9b5de5"
+permission:
+  read: "#a8c43a"
+  write: "#f2c53d"
+  exec: "#e0323f"
+  exec-sticky: "#f07a2a"
+  no-access: "#6e5662"
+  octal: "#2aa9cf"
+  acl: "#2aa9cf"
+  context: "#2aa9cf"
+date:
+  hour-old: "#eedfd9"
+  day-old: "#a2939a"
+  older: "#6e5662"
+size:
+  none: "#6e5662"
+  small: "#a2939a"
+  medium: "#f2c53d"
+  large: "#f07a2a"
+inode:
+  valid: "#d63a9c"
+  invalid: "#6e5662"
+links:
+  valid: "#2aa9cf"
+  invalid: "#ff5c66"
+tree-edge: "#3a1520"
+git-status:
+  default: "#a2939a"
+  unmodified: "#6e5662"
+  ignored: "#6e5662"
+  new-in-index: "#a8c43a"
+  new-in-workdir: "#a8c43a"
+  typechange: "#f2c53d"
+  deleted: "#e0323f"
+  renamed: "#2aa9cf"
+  modified: "#f2c53d"
+  conflicted: "#ff5c66"
