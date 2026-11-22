@@ -41,4 +41,6 @@
 .config/hypr/sounds/complete.oga
 # terminal + editor colours
 .config/kitty/kitty.conf
+# fastfetch panel in the terminal greeting (link -> spiderpunk.jsonc / obsidian-glass.jsonc)
+.config/fastfetch/style.jsonc
 .config/nvim/lua/plugins/desktop-style.lua
