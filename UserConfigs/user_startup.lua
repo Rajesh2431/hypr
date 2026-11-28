@@ -94,7 +94,8 @@ local startup_commands = {
   -- "blueman-applet",
   -- "$HOME/.config/hypr/UserScripts/RainbowBorders.sh",
   -- start the island only if D-Bus hasn't already started it for an early notification (else: two islands)
-  "sh -c 'pgrep -f \"qs -c island\" >/dev/null || exec env __EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/50_mesa.json qs -c island'",  -- Dynamic Island (Mesa = AMD iGPU, keeps the NVIDIA dGPU asleep) (centre of waybar): ~/.config/quickshell/island
+  -- (anchored pattern: an unanchored "qs -c island" matched this sh -c line itself, so the island never started)
+  "sh -c 'pgrep -f \"^(/usr/bin/)?qs -c island$\" >/dev/null || exec env __EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/50_mesa.json qs -c island'",  -- Dynamic Island (Mesa = AMD iGPU, keeps the NVIDIA dGPU asleep) (centre of waybar): ~/.config/quickshell/island
   -- video wallpaper: start it again after login if video mode was on (Super+Alt+W; UserScripts/VideoWall.py)
   "sleep 3; $HOME/.config/hypr/UserScripts/VideoWall.py restore",
   -- layout presets: keep Columns / Focus Column widths when windows open (UserScripts/Layouts.py)
